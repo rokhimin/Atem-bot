@@ -1,6 +1,9 @@
 require 'discordrb'
 require 'ostruct'
 require 'yaml'
+require 'nokogiri'
+require 'open-uri'
+require 'net/http'
 
 # The main bot module.
 module Bot
