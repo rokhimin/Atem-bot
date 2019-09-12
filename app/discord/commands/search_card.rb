@@ -1,18 +1,31 @@
 module Bot::DiscordCommands
-  module SearchCard
+  module SearchCard   
+	  extend Discordrb::EventContainer
 	  
-            message(description: 'searchcard') do |event, *ygo|
-                card = ygo.join('')
-                #url = "https://db.ygoprodeck.com/api/v5/cardinfo.php?fname=#{card}"
-                #uri = URI(url)
-                #response = Net::HTTP.get(uri)
-                #api_ygo = JSON.parse(response)
+            message(description: 'searchcard') do |event|
+                card = event.message.content
+				from = /(?<=::).+(?=::)/.match(card)
+				
+                url = "https://db.ygoprodeck.com/api/v5/cardinfo.php?fname=#{from}"
+                uri = URI(url)
+                response = Net::HTTP.get(uri)
+                atem = JSON.parse(response)
 
-                event.channel.send_embed do |embed|
-                embed.colour = 0xff8040
-                embed.add_field name: "test", value: "#{card}"
-                end
+				if atem[0] == nil
+						event.channel.send_embed do |embed|
+						embed.colour = 0xff1432 #red
+						embed.description = "'#{from}' not found"
+						end
+				else
+						event.channel.send_embed do |embed|
+						embed.colour = 0xff8040 #orange
+						embed.add_field name: "name", value: "#{atem[0]["name"]}"
+						embed.add_field name: "type", value: "#{atem[0]["type"]}"
+						end
+				end
+
             end
+	  
 
     end
 end
