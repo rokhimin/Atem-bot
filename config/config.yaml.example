@@ -7,6 +7,9 @@ token:
 # Command prefix
 prefix:
 
+# A third-party API
+api: 
+
 # ID of bot owner
 owner:
 
