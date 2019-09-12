@@ -4,10 +4,10 @@ require 'yaml'
 require 'nokogiri'
 require 'open-uri'
 require 'net/http'
+require 'json'
 
-# The main bot module.
 module Bot
-  Dir['src/modules/*.rb'].each { |mod| load mod }
+  Dir['src/discord/*.rb'].each { |mod| load mod }
 
   CONFIG = OpenStruct.new YAML.load_file 'config/config.yaml'
 
@@ -18,7 +18,7 @@ module Bot
   def self.load_modules(klass, path)
     new_module = Module.new
     const_set(klass.to_sym, new_module)
-    Dir["app/modules/#{path}/*.rb"].each { |file| load file }
+    Dir["app/discord/#{path}/*.rb"].each { |file| load file }
     new_module.constants.each do |mod|
       BOT.include! new_module.const_get(mod)
     end
@@ -27,6 +27,5 @@ module Bot
   load_modules(:DiscordEvents, 'events')
   load_modules(:DiscordCommands, 'commands')
 
-  # Run the bot
   BOT.run
 end

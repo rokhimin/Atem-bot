@@ -3,6 +3,9 @@
 /Gemfile.lock
 /run.sh
 
+# deleted goorm shit
+/goorm.manifest
+
 *.gem
 *.rbc
 /.config
