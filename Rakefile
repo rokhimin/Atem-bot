@@ -38,6 +38,9 @@ namespace :run do
   task :discord do
     sh 'ruby bin/bot_discord.rb'
   end
+  task :telegram do
+    sh 'ruby bin/bot_telegram.rb'
+  end
 end
 
 namespace :gem do
