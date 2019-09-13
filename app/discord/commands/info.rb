@@ -7,7 +7,7 @@ module Bot::DiscordCommands
 				embed.colour = 0xff8040 #orange
 				embed.description = "**Name**     : Atem bot
 									**Version**   : 1.1.0
-									**Developer** : @whdzera#3629 , @rokhiminwahid#7124 
+									**Developer** : [@whdzera](https://github.com/whdzera) , [@rokhimin](https://github.com/whdzera)
 									**Written**   : Ruby Language (discordrb)"
 				end
 	  end
