@@ -11,9 +11,9 @@ module Bot
 
   CONFIG = OpenStruct.new YAML.load_file 'config/config.yaml'
 
-  BOT = Discordrb::Commands::CommandBot.new(client_id: CONFIG.client_id,
-                                            token: CONFIG.token,
-                                            prefix: CONFIG.prefix)
+  BOT = Discordrb::Commands::CommandBot.new(client_id: CONFIG.client_id_discord,
+                                            token: CONFIG.token_discord,
+                                            prefix: CONFIG.prefix_discord)
 
   def self.load_modules(klass, path)
     new_module = Module.new

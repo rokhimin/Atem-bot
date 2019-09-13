@@ -1,17 +1,20 @@
 # Discord API client ID
-client_id:
+client_id_discord: ''
 
 # Discord API client token
-token:
+token_discord: ''
 
 # Command prefix
-prefix:
-
-# A third-party API
-api: 
+prefix_discord: 'atem:'
 
 # ID of bot owner
-owner:
+owner_discord: ''
 
 # game the bot is playing
-game:
+game_discord: 'check | atem:help'
+
+# A third-party API
+api: ''
+
+# API pics
+api_pict: ''
