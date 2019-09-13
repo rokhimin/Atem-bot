@@ -1,3 +1,4 @@
+task :default => [:welcome]
 
 namespace :db do
 
@@ -53,6 +54,10 @@ end
 
 task :environment do
   load 'config/config.rb'
+end
+
+task :welcome do
+  puts "hi follow my twitter https://twitter.com/rokhiminwahid"
 end
 
 

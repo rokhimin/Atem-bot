@@ -1,7 +1,10 @@
-<img align="right" width="100" src="https://i.imgur.com/Fgolqn1.png"/>
+<img align="center" width="100%" src="https://i.imgur.com/rvGL5jK.gif" />
 
+<img align="center" width="150" src="https://i.imgur.com/Fgolqn1.png" />
 
-![](https://i.imgur.com/rvGL5jK.gif)  
+![Lang](https://img.shields.io/badge/Language-Ruby-red)
+![build](https://travis-ci.com/rokhimin/Atem-yugioh-bot.svg?branch=master)
+![Coverage Status](https://img.shields.io/badge/coverage-99%25-green)
 
 # Atem
 discord & telegram bot for search yugioh card . written in Ruby (discordrb) .
