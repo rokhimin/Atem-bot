@@ -32,6 +32,76 @@ module Bot::DiscordCommands
 								embed.add_field name: "DEF", value: "#{atem[0]["def"]}", inline: true
                     			embed.image = Discordrb::Webhooks::EmbedImage.new(url: "#{CONFIG.api_pict}#{atem[0]["id"]}.jpg")
 								end
+							
+							when "Effect Monster"
+								event.channel.send_embed do |embed|
+								embed.colour = 0xa87524 #yellowdark
+								embed.add_field name: "**#{atem[0]["name"]}**", value: "**Type :** #{atem[0]["type"]} \n **Attribute :** #{atem[0]["attribute"]} \n **Level :** #{atem[0]["level"]}"
+								embed.add_field name: "[ #{atem[0]["race"]} / Effect ]", value: "#{atem[0]["desc"]}"
+								embed.add_field name: "ATK", value: "#{atem[0]["atk"]}", inline: true
+								embed.add_field name: "DEF", value: "#{atem[0]["def"]}", inline: true
+                    			embed.image = Discordrb::Webhooks::EmbedImage.new(url: "#{CONFIG.api_pict}#{atem[0]["id"]}.jpg")
+								end
+							
+							when "Ritual Effect Monster"
+								event.channel.send_embed do |embed|
+								embed.colour = 0x293cbd #blue
+								embed.add_field name: "**#{atem[0]["name"]}**", value: "**Type :** #{atem[0]["type"]} \n **Attribute :** #{atem[0]["attribute"]} \n **Level :** #{atem[0]["level"]}"
+								embed.add_field name: "[ #{atem[0]["race"]} / Ritual / Effect ]", value: "#{atem[0]["desc"]}"
+								embed.add_field name: "ATK", value: "#{atem[0]["atk"]}", inline: true
+								embed.add_field name: "DEF", value: "#{atem[0]["def"]}", inline: true
+                    			embed.image = Discordrb::Webhooks::EmbedImage.new(url: "#{CONFIG.api_pict}#{atem[0]["id"]}.jpg")
+								end
+							
+							when "Fusion Monster"
+								event.channel.send_embed do |embed|
+								embed.colour = 0x9115ee #purple
+								embed.add_field name: "**#{atem[0]["name"]}**", value: "**Type :** #{atem[0]["type"]} \n **Attribute :** #{atem[0]["attribute"]} \n **Level :** #{atem[0]["level"]}"
+								embed.add_field name: "[ #{atem[0]["race"]} / Fusion / Effect ]", value: "#{atem[0]["desc"]}"
+								embed.add_field name: "ATK", value: "#{atem[0]["atk"]}", inline: true
+								embed.add_field name: "DEF", value: "#{atem[0]["def"]}", inline: true
+                    			embed.image = Discordrb::Webhooks::EmbedImage.new(url: "#{CONFIG.api_pict}#{atem[0]["id"]}.jpg")
+								end
+							
+							when "Synchro Monster"
+								event.channel.send_embed do |embed|
+								embed.colour = 0xfcfcfc #white
+								embed.add_field name: "**#{atem[0]["name"]}**", value: "**Type :** #{atem[0]["type"]} \n **Attribute :** #{atem[0]["attribute"]} \n **Level :** #{atem[0]["level"]}"
+								embed.add_field name: "[ #{atem[0]["race"]} / Synchro / Effect ]", value: "#{atem[0]["desc"]}"
+								embed.add_field name: "ATK", value: "#{atem[0]["atk"]}", inline: true
+								embed.add_field name: "DEF", value: "#{atem[0]["def"]}", inline: true
+                    			embed.image = Discordrb::Webhooks::EmbedImage.new(url: "#{CONFIG.api_pict}#{atem[0]["id"]}.jpg")
+								end
+							
+							when "XYZ Monster"
+								event.channel.send_embed do |embed|
+								embed.colour = 0x252525 #black
+								embed.add_field name: "**#{atem[0]["name"]}**", value: "**Type :** #{atem[0]["type"]} \n **Attribute :** #{atem[0]["attribute"]} \n **Level :** #{atem[0]["level"]}"
+								embed.add_field name: "[ #{atem[0]["race"]} / XYZ / Effect ]", value: "#{atem[0]["desc"]}"
+								embed.add_field name: "ATK", value: "#{atem[0]["atk"]}", inline: true
+								embed.add_field name: "DEF", value: "#{atem[0]["def"]}", inline: true
+                    			embed.image = Discordrb::Webhooks::EmbedImage.new(url: "#{CONFIG.api_pict}#{atem[0]["id"]}.jpg")
+								end
+							
+							when "Pendulum Effect Monster"
+								event.channel.send_embed do |embed|
+								embed.colour = 0x84b870 #greenlight
+								embed.add_field name: "**#{atem[0]["name"]}**", value: "**Type :** #{atem[0]["type"]} \n **Attribute :** #{atem[0]["attribute"]} \n **Level :** #{atem[0]["level"]}"
+								embed.add_field name: "[ #{atem[0]["race"]} / Pendulum / Effect ]", value: "#{atem[0]["desc"]}"
+								embed.add_field name: "ATK", value: "#{atem[0]["atk"]}", inline: true
+								embed.add_field name: "DEF", value: "#{atem[0]["def"]}", inline: true
+                    			embed.image = Discordrb::Webhooks::EmbedImage.new(url: "#{CONFIG.api_pict}#{atem[0]["id"]}.jpg")
+								end
+							
+							when "Link Monster"
+								event.channel.send_embed do |embed|
+								embed.colour = 0x293cbd #blue
+								embed.add_field name: "**#{atem[0]["name"]}**", value: "**Type :** #{atem[0]["type"]} \n **Attribute :** #{atem[0]["attribute"]}"
+								embed.add_field name: "[ #{atem[0]["race"]} / Link / Effect ]", value: "#{atem[0]["desc"]}"
+								embed.add_field name: "ATK", value: "#{atem[0]["atk"]}", inline: true
+								embed.add_field name: "LINK", value: "-#{atem[0]["linkval"]}", inline: true
+                    			embed.image = Discordrb::Webhooks::EmbedImage.new(url: "#{CONFIG.api_pict}#{atem[0]["id"]}.jpg")
+								end
 
 							when "Spell Card"
 								event.channel.send_embed do |embed|
@@ -44,8 +114,9 @@ module Bot::DiscordCommands
 							when "Trap Card"
 								event.channel.send_embed do |embed|
 								embed.colour = 0xc51a57 #pink
-								embed.add_field name: "name", value: "#{atem[0]["name"]}"
-								embed.add_field name: "type", value: "#{atem[0]["type"]}"
+								embed.add_field name: "**#{atem[0]["name"]}**", value: "**Type :** #{atem[0]["type"]} \n **Property :** #{atem[0]["race"]}"
+								embed.add_field name: "Effect", value: "#{atem[0]["desc"]}"
+                    			embed.image = Discordrb::Webhooks::EmbedImage.new(url: "#{CONFIG.api_pict}#{atem[0]["id"]}.jpg")
 								end
 						end
 				
