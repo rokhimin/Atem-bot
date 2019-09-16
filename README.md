@@ -14,26 +14,44 @@ discord & telegram bot for search yugioh card . written in Ruby.
 
 ### use
 ###### discord 
-- info :
-> atem:info
-- search card :
-> ::name_card::
+ info :
+ ```
+ atem:info
+ ```
+search card :
+ ```
+ ::name_card::
+ ```
 
 ### developer tool tasks
-- install gem :
-> rake gem:install
-- create db :
-> rake db:create
-- migration db :
-> rake db:migrate
-- drop db :
-> rake db:drop
-- test :
-> rake run:rspec
-- run bot discord :
-> rake run:discord
-- run bot telegram :
-> rake run:telegram
+install gem :
+ ```
+ rake gem:install
+ ```
+create db :
+ ```
+ rake db:create
+ ```
+migration db :
+ ```
+ rake db:migrate
+ ```
+drop db :
+ ```
+ rake db:drop
+ ```
+test :
+ ```
+ rake run:rspec
+ ```
+run bot discord :
+ ```
+ rake run:discord
+ ```
+run bot telegram :
+ ```
+ rake run:telegram
+ ```
 
 
 # License

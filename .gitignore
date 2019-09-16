@@ -1,12 +1,9 @@
-# Discord config file
+# shit file :v
 /config/config.yaml
 /Gemfile.lock
 /glitch.json
-/run.sh
 
 # deleted goorm shit
 /goorm.manifest
 
-# Used by dotenv library to load environment variables.
-# .env
 
