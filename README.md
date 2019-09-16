@@ -13,7 +13,7 @@ discord & telegram bot for search yugioh card . written in Ruby.
 > [Discord](https://discordapp.com/api/oauth2/authorize?client_id=617492380710469763&permissions=1074789568&scope=bot) | Telegram(soon..)
 
 ### feature
-- search card yugioh
+- search card yugioh (one and list)
 - get updated deck meta (duel links)
 
 ### use
@@ -26,7 +26,11 @@ meta duel links :
  ```
  atem:dlmeta
  ```
-search card :
+search card (list card) :
+ ```
+ atem:src name_card
+ ```
+search card (single/one card) :
  ```
  ::name_card::
  ```
