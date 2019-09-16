@@ -21,8 +21,8 @@ discord & telegram bot for search yugioh card . written in Ruby.
 | ------------- | ------------- |
 |  information  |  ```atem:info```    |
 | meta deck (duel links)  | ```atem:dlmeta```  |
-|  search card (list card)  |  ```atem:src name_card```    |
-| search card (single/one card) | ```::name_card::``` |
+|  search card (list card)  |  ```atem:src card_name```    |
+| search card (single/one card) | ```::card_name::``` |
 
 ### developer tool tasks
 install gem :
