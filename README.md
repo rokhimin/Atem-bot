@@ -12,6 +12,10 @@ discord & telegram bot for search yugioh card . written in Ruby.
 ### Play
 > [Discord](https://discordapp.com/api/oauth2/authorize?client_id=617492380710469763&permissions=1074789568&scope=bot) | Telegram(soon..)
 
+### feature
+- search card yugioh
+- get updated deck meta (duel links)
+
 ### use
 ###### discord 
  info :
