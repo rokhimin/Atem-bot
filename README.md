@@ -7,7 +7,7 @@
 ![Coverage Status](https://img.shields.io/badge/coverage-99%25-green)
 
 # Atem
-discord & telegram bot for search yugioh card . written in Ruby (discordrb) .
+discord & telegram bot for search yugioh card . written in Ruby.
 
 ### Play
 > [Discord](https://discordapp.com/api/oauth2/authorize?client_id=617492380710469763&permissions=1074789568&scope=bot) | Telegram(soon..)

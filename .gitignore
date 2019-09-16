@@ -1,6 +1,7 @@
 # Discord config file
 /config/config.yaml
 /Gemfile.lock
+/glitch.json
 /run.sh
 
 # deleted goorm shit
