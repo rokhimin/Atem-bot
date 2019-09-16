@@ -43,12 +43,21 @@ module Bot::DiscordCommands
                     			embed.image = Discordrb::Webhooks::EmbedImage.new(url: "#{CONFIG.api_pict}#{atem[0]["id"]}.jpg")
 								end
 							
-							
 							when "Tuner Monster"
 								event.channel.send_embed do |embed|
 								embed.colour = 0xa87524 #yellowdark
 								embed.add_field name: "**#{atem[0]["name"]}**", value: "**Type :** #{atem[0]["type"]} \n **Attribute :** #{atem[0]["attribute"]} \n **Level :** #{atem[0]["level"]}"
 								embed.add_field name: "[ #{atem[0]["race"]} / Tuner / Effect ]", value: "#{atem[0]["desc"]}"
+								embed.add_field name: "ATK", value: "#{atem[0]["atk"]}", inline: true
+								embed.add_field name: "DEF", value: "#{atem[0]["def"]}", inline: true
+                    			embed.image = Discordrb::Webhooks::EmbedImage.new(url: "#{CONFIG.api_pict}#{atem[0]["id"]}.jpg")
+								end
+							
+							when "Spirit Monster"
+								event.channel.send_embed do |embed|
+								embed.colour = 0xa87524 #yellowdark
+								embed.add_field name: "**#{atem[0]["name"]}**", value: "**Type :** #{atem[0]["type"]} \n **Attribute :** #{atem[0]["attribute"]} \n **Level :** #{atem[0]["level"]}"
+								embed.add_field name: "[ #{atem[0]["race"]} / Spirit / Effect ]", value: "#{atem[0]["desc"]}"
 								embed.add_field name: "ATK", value: "#{atem[0]["atk"]}", inline: true
 								embed.add_field name: "DEF", value: "#{atem[0]["def"]}", inline: true
                     			embed.image = Discordrb::Webhooks::EmbedImage.new(url: "#{CONFIG.api_pict}#{atem[0]["id"]}.jpg")
