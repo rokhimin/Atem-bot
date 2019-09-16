@@ -3,7 +3,7 @@ module Bot::DiscordCommands
     extend Discordrb::Commands::CommandContainer
 	  
 	  command(:dlmeta) do |event|
-        	url = Nokogiri::HTML(open("http://www.duellinksmeta.com/tier-list"))
+        	url = Nokogiri::HTML(open("https://www.duellinksmeta.com/tier-list"))
 				
 		    #lastupdate
 			date = ''
