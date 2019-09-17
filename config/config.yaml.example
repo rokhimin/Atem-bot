@@ -1,20 +1,24 @@
-# Discord API client ID
+# DISCORD config
+# set 'development' if you develop bot and 'production' if you ready to publish bot
+mode_discord: 'development'
+
+# Discord client ID
 client_id_discord: ''
 
-# Discord API client token
+# Discord token
 token_discord: ''
 
-# Command prefix
-prefix_discord: 'atem:'
+# Discord command prefix
+prefix_discord_development: 'test:'
+prefix_discord_production: 'atem:'
 
-# ID of bot owner
+# Discord ID of bot owner
 owner_discord: ''
 
-# game the bot is playing
-game_discord: 'check | atem:help'
+# Discord game the bot is playing
+game_discord_development: 'MAINTENANCE'
+game_discord_production: 'check | atem:help'
 
-# A third-party API
+# API third-party
 api: ''
-
-# API pics
 api_pict: ''
