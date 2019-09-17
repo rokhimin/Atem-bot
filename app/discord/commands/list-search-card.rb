@@ -4,7 +4,7 @@ module Bot::DiscordCommands
             CONFIG = OpenStruct.new YAML.load_file 'config/config.yaml'
 	  
 	 	 command(:src) do |event, *from|
-                temp = from.join('')
+                temp = from.join(' ')
 				url = "#{CONFIG.api}#{temp}"
 				uri = URI(url)
 				response = Net::HTTP.get(uri)
@@ -36,6 +36,7 @@ module Bot::DiscordCommands
 			 
 				end
 	  end
+	  
 	  
   end
 end

@@ -29,6 +29,7 @@ module Bot
 
 		  load_modules(:DiscordEvents, 'events')
 		  load_modules(:DiscordCommands, 'commands')
+			puts "[MODE : Development]"
 		  BOT_DEVELOPMENT.run
 		
 		when 'production'
@@ -48,6 +49,7 @@ module Bot
 
 		  load_modules(:DiscordEvents, 'events')
 		  load_modules(:DiscordCommands, 'commands')
+			puts "[MODE : Production]"
 		  BOT_PRODUCTION.run
 		
 		else
