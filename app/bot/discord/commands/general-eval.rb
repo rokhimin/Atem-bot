@@ -1,7 +1,7 @@
 module Bot::DiscordCommands
   module Eval
     extend Discordrb::Commands::CommandContainer
-
+	  
     command(:eval, help_available: false) do |event, *code|
       break unless event.user.id == Bot::CONFIG.owner
       begin
@@ -10,6 +10,7 @@ module Bot::DiscordCommands
         "An error occurred 😞 ```#{e}```"
       end
     end
+
     
   end
 end

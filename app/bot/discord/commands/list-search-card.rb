@@ -13,14 +13,14 @@ module Bot::DiscordCommands
 				if atem[0] == nil				
 					event.channel.send_embed do |embed|
 					embed.colour = 0xff8040 #orange
-					  embed.add_field(name: "0 card matches for ``#{temp}``", value: "try again aibou..", inline: true)
+					embed.add_field(name: "0 card matches for ``#{temp}``", value: "try again aibou..", inline: true)
 					end
 					
 				else
 					listing = []
-					count = 30
+					count = 35
 					num_default = 0
-					for logic_search in 1..30 do
+					for logic_search in 1..35 do
 						if atem[num_default] == nil
 						else
 						listing << atem[num_default]["name"]
@@ -28,10 +28,11 @@ module Bot::DiscordCommands
 						count -= 1
 						end
 					end
-		  	
+		  			
+					atem_listing = listing.shuffle
 					event.channel.send_embed do |embed|
 					embed.colour = 0xff8040 #orange
-					  embed.add_field(name: "#{listing.length} card matches for ``#{temp}``", value: " #{listing.join(" \n")}", inline: true)
+					embed.add_field(name: "#{listing.length} card matches for ``#{temp}``", value: " #{atem_listing.join(" \n")}", inline: true)
 					end
 			 
 				end

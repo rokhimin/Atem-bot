@@ -7,8 +7,7 @@ require 'net/http'
 require 'json'
 
 module Bot
-  Dir['src/discord/*.rb'].each { |mod| load mod }
-
+	
   CONFIG = OpenStruct.new YAML.load_file 'config/config.yaml'
 	
 	case CONFIG.mode_discord
@@ -21,12 +20,12 @@ module Bot
 		  def self.load_modules(klass, path)
 			new_module = Module.new
 			const_set(klass.to_sym, new_module)
-			Dir["app/discord/#{path}/*.rb"].each { |file| load file }
+			Dir["app/bot/discord/#{path}/*.rb"].each { |file| load file }
 			new_module.constants.each do |mod|
 			  BOT_DEVELOPMENT.include! new_module.const_get(mod)
 			end
 		  end
-
+		
 		  load_modules(:DiscordEvents, 'events')
 		  load_modules(:DiscordCommands, 'commands')
 			puts "[MODE : Development]"
@@ -41,7 +40,7 @@ module Bot
 		  def self.load_modules(klass, path)
 			new_module = Module.new
 			const_set(klass.to_sym, new_module)
-			Dir["app/discord/#{path}/*.rb"].each { |file| load file }
+			Dir["app/bot/discord/#{path}/*.rb"].each { |file| load file }
 			new_module.constants.each do |mod|
 			  BOT_PRODUCTION.include! new_module.const_get(mod)
 			end

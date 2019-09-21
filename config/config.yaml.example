@@ -19,6 +19,3 @@ owner_discord: ''
 game_discord_development: 'MAINTENANCE'
 game_discord_production: 'check | atem:help'
 
-# API third-party
-api: ''
-api_pict: ''
