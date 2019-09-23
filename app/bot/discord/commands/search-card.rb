@@ -5,9 +5,11 @@ module Bot::DiscordCommands
 	  
             message(description: 'searchcard') do |event|
                 card = event.message.content
-				from = /(?<=::).+(?=::)/.match(card)
-				carry = "#{/::/.match(card)}"
-				checker = '::'
+				temp1 = card.sub("::", "<begin:atem>")
+				temp2 = temp1.sub("::", "<end:atem>")
+				from = /(?<=<begin:atem>).+(?=<end:atem>)/.match(temp2)
+				carry = "#{/<end:atem>/.match(temp2)}"
+				checker = "<end:atem>"
 				url = "#{CONFIG.api}#{from}"
 				uri = URI(url)
 				response = Net::HTTP.get(uri)
