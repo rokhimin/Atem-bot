@@ -181,7 +181,7 @@ module Bot::DiscordCommands
 							embed.add_field name: "#{about.join('')}", value: "#{desc}"
 							embed.add_field name: "ATK", value: "#{m_atk}", inline: true
 							embed.add_field name: "DEF", value: "#{m_def}", inline: true
-                    		embed.image = Discordrb::Webhooks::EmbedImage.new(url: pict)
+							embed.image = Discordrb::Webhooks::EmbedImage.new(url: pict)
 						end
 
 					when "Spell Card", 
@@ -192,7 +192,7 @@ module Bot::DiscordCommands
 							embed.colour = color
 							embed.add_field name: "**#{name}**", value: "**Type :** #{type} \n **Property :** #{race}"
 							embed.add_field name: "Effect", value: "#{desc}"
-                    		embed.image = Discordrb::Webhooks::EmbedImage.new(url: pict)
+							embed.image = Discordrb::Webhooks::EmbedImage.new(url: pict)
 						end
 					
 				end
