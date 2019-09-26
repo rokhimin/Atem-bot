@@ -5,7 +5,6 @@ module Bot::DiscordCommands
 	  command(:dlmeta) do |event|
         	url = Nokogiri::HTML(open("https://www.duellinksmeta.com/tier-list"))
 				
-		    #lastupdate
 			date = ''
             date << url.css('h4')[0]
 
@@ -46,12 +45,12 @@ module Bot::DiscordCommands
 			end
 		  	
 			event.channel.send_embed do |embed|
-			embed.colour = 0xff8040 #orange
-			embed.description = "#{date}"
-			embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "source : DuelLinksMeta.com")
-			  embed.add_field(name: "Tier 1", value: " #{tier1.join(" \n")}", inline: true)
-			  embed.add_field(name: "Tier 2", value: " #{tier2.join(" \n")}", inline: true)
-			  embed.add_field(name: "Tier 3", value: " #{tier3.join(" \n")}", inline: true)
+				embed.colour = 0xff8040 #orange
+				embed.description = "#{date}"
+				embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "source : DuelLinksMeta.com")
+				  embed.add_field(name: "Tier 1", value: " #{tier1.join(" \n")}", inline: true)
+				  embed.add_field(name: "Tier 2", value: " #{tier2.join(" \n")}", inline: true)
+				  embed.add_field(name: "Tier 3", value: " #{tier3.join(" \n")}", inline: true)
 			end
 	  end
 	  
