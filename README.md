@@ -7,7 +7,7 @@
 </a>
 
 ![Lang](https://img.shields.io/badge/Language-Ruby-red)
-![build](https://travis-ci.com/rokhimin/Atem-yugioh-bot.svg?branch=master)
+[![Build Status](https://travis-ci.com/rokhimin/Atem-bot.svg?branch=master)](https://travis-ci.com/rokhimin/Atem-bot)
 ![Coverage Status](https://img.shields.io/badge/coverage-99%25-green)
 
 # Atem
@@ -15,12 +15,12 @@ discord & telegram bot for search yugioh card, newst meta deck . written in Ruby
 
 ### Play
 
-> [Discord](https://discordapp.com/api/oauth2/authorize?client_id=617492380710469763&permissions=1074789568&scope=bot) | Telegram(soon..)
+> [Discord](https://discordbots.org/bot/617492380710469763) | Telegram(soon..)
 
 ### features
 - quick search card yugioh 
 - list search card yugioh
-- get updated deck meta (duel links)
+- tier list deck meta (duel links)
 
 ### use
 |   Commands    |    Discord    |
