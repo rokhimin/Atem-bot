@@ -18,8 +18,8 @@ discord & telegram bot for search yugioh card, newst meta deck . written in Ruby
 > [Discord](https://discordbots.org/bot/617492380710469763) | Telegram(soon..)
 
 ### features
-- quick search card yugioh 
-- list search card yugioh
+- quick search yugioh card 
+- list search yugioh card
 - tier list deck meta (duel links)
 
 ### use
