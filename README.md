@@ -2,6 +2,9 @@
 
 <img align="center" width="150" src="https://i.imgur.com/Fgolqn1.png" />
 
+<a href="https://discordbots.org/bot/617492380710469763" >
+  <img src="https://discordbots.org/api/widget/status/617492380710469763.svg" alt="Atem" />
+</a>
 ![Lang](https://img.shields.io/badge/Language-Ruby-red)
 ![build](https://travis-ci.com/rokhimin/Atem-yugioh-bot.svg?branch=master)
 ![Coverage Status](https://img.shields.io/badge/coverage-99%25-green)
@@ -10,6 +13,9 @@
 discord & telegram bot for search yugioh card . written in Ruby.
 
 ### Play
+<a href="https://discordbots.org/bot/617492380710469763" >
+  <img src="https://discordbots.org/api/widget/617492380710469763.svg" alt="Atem" />
+</a>
 > [Discord](https://discordapp.com/api/oauth2/authorize?client_id=617492380710469763&permissions=1074789568&scope=bot) | Telegram(soon..)
 
 ### feature
