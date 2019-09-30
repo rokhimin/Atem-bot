@@ -5,21 +5,21 @@
 <a href="https://discordbots.org/bot/617492380710469763" >
   <img src="https://discordbots.org/api/widget/status/617492380710469763.svg" alt="Atem" />
 </a>
+
 ![Lang](https://img.shields.io/badge/Language-Ruby-red)
 ![build](https://travis-ci.com/rokhimin/Atem-yugioh-bot.svg?branch=master)
 ![Coverage Status](https://img.shields.io/badge/coverage-99%25-green)
 
 # Atem
-discord & telegram bot for search yugioh card . written in Ruby.
+discord & telegram bot for search yugioh card, newst meta deck . written in Ruby.
 
 ### Play
-<a href="https://discordbots.org/bot/617492380710469763" >
-  <img src="https://discordbots.org/api/widget/617492380710469763.svg" alt="Atem" />
-</a>
+
 > [Discord](https://discordapp.com/api/oauth2/authorize?client_id=617492380710469763&permissions=1074789568&scope=bot) | Telegram(soon..)
 
-### feature
-- search card yugioh (one and list)
+### features
+- quick search card yugioh 
+- list search card yugioh
 - get updated deck meta (duel links)
 
 ### use
@@ -28,8 +28,8 @@ discord & telegram bot for search yugioh card . written in Ruby.
 |  information  |  ```atem:info```    |
 | meta deck (duel links)  | ```atem:dlmeta```  |
 | random card | ```atem:random``` |
-|  search card (list card)  |  ```atem:src card_name```    |
-| search card (single/one card) | ```::card_name::``` |
+| list search card  |  ```atem:src card_name```    |
+| quick search card | ```::card_name::``` |
 
 ### developer tool tasks
 install gem :
@@ -64,3 +64,8 @@ run bot telegram :
 
 # License
 Apache License.
+
+
+<a href="https://discordbots.org/bot/617492380710469763" >
+  <img src="https://discordbots.org/api/widget/617492380710469763.svg" alt="Atem" />
+</a>
