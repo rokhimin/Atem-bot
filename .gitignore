@@ -2,6 +2,7 @@
 /config/config.yaml
 /Gemfile.lock
 /glitch.json
+/.theia
 
 # deleted goorm shit
 /goorm.manifest
