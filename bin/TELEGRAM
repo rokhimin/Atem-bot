@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+require 'telegram/bot'
+require 'nokogiri'
+require 'open-uri'
+require 'net/http'
+require 'json'
+require 'ostruct'
+require 'yaml'
+# Core
+require './app/bot/telegram/atem'
+
+puts 'Bot Running..'
+CONFIG = OpenStruct.new YAML.load_file 'config/config.yaml'
+TOKEN = CONFIG.token_telegram
+Atem.starts

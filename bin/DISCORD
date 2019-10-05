@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'discordrb'
 require 'ostruct'
 require 'yaml'
@@ -7,9 +8,9 @@ require 'net/http'
 require 'json'
 
 module Bot
-	
+
   CONFIG = OpenStruct.new YAML.load_file 'config/config.yaml'
-	
+
 	case CONFIG.mode_discord
 		when 'development'
 
@@ -25,14 +26,14 @@ module Bot
 			  BOT_DEVELOPMENT.include! new_module.const_get(mod)
 			end
 		  end
-		
+
 		  load_modules(:DiscordEvents, 'events')
 		  load_modules(:DiscordCommands, 'commands')
 			puts "[MODE : Development]"
 		  BOT_DEVELOPMENT.run
-		
+
 		when 'production'
-	
+
 		  BOT_PRODUCTION = Discordrb::Commands::CommandBot.new(client_id: CONFIG.client_id_discord,
 													token: CONFIG.token_discord,
 													prefix: CONFIG.prefix_discord_production)
@@ -50,8 +51,10 @@ module Bot
 		  load_modules(:DiscordCommands, 'commands')
 			puts "[MODE : Production]"
 		  BOT_PRODUCTION.run
-		
+
 		else
 			puts 'SET mode_discord in /config/config.yaml'
 		end
 end
+
+

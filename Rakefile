@@ -37,10 +37,10 @@ namespace :run do
     sh 'rspec spec/index_spec.rb'
   end
   task :discord do
-    sh 'ruby bin/bot_discord.rb'
+    sh 'ruby bin/DISCORD'
   end
   task :telegram do
-    sh 'ruby bin/bot_telegram.rb'
+    sh 'ruby bin/TELEGRAM'
   end
 end
 
