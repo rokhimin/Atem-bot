@@ -6,5 +6,8 @@ branches:
   only:
   - master
 
+script:
+  - rake run:rspec
+
 matrix:
   fast_finish: true
