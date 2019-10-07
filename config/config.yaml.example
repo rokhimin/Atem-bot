@@ -1,4 +1,6 @@
-# DISCORD config
+###################################################################
+###################################################################
+# DISCORD configurations
 # set 'development' if you develop bot and 'production' if you ready to publish bot
 mode_discord: 'development'
 
@@ -19,3 +21,8 @@ owner_discord: ''
 game_discord_development: 'MAINTENANCE'
 game_discord_production: 'check | atem:help'
 
+###################################################################
+###################################################################
+# TELEGRAM Configurations
+
+token_telegram: ''
