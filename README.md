@@ -26,6 +26,7 @@ discord & telegram bot for search yugioh card, newst meta deck . written in Ruby
 |   Commands    |    Discord    |
 | ------------- | ------------- |
 |  information  |  ```atem:info```    |
+| ping  | ```atem:ping```  |
 | meta deck (duel links)  | ```atem:dlmeta```  |
 | random card | ```atem:random``` |
 | list search card  |  ```atem:src card_name```    |

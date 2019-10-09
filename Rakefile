@@ -2,7 +2,7 @@ task :default => [:welcome]
 
 namespace :db do
 
-  desc 'Migrate the database'
+  desc 'migrate the database'
   task :migrate => :environment do
     migrations = if ActiveRecord.version.version >= '5.2'
     ActiveRecord::Migration.new.migration_context.migrations
@@ -12,7 +12,7 @@ namespace :db do
   ActiveRecord::Migrator.new(:up, migrations, nil).migrate
   end
 
-  desc 'Create the database'
+  desc 'create the database'
   task :create do
     connection_details = YAML::load(File.open('config/database.yml'))
     admin_connection = connection_details.merge({'database'=> 'postgres',
@@ -21,7 +21,7 @@ namespace :db do
     ActiveRecord::Base.connection.create_database(connection_details.fetch('database'))
   end
 
-  desc 'Drop the database'
+  desc 'drop the database'
   task :drop do
     connection_details = YAML::load(File.open('config/database.yml'))
     admin_connection = connection_details.merge({'database'=> 'postgres',
@@ -32,13 +32,15 @@ namespace :db do
 end
 
 namespace :run do
-  desc "running"
+  desc "running TDD(test driven-development)"
   task :rspec do
     sh 'rspec spec/index_spec.rb'
   end
+  desc "running discord bot"
   task :discord do
     sh 'ruby bin/DISCORD'
   end
+  desc "running telegram bot"
   task :telegram do
     sh 'ruby bin/TELEGRAM'
   end
