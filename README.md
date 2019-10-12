@@ -8,14 +8,14 @@
 
 ![Lang](https://img.shields.io/badge/Language-Ruby-red)
 [![Build Status](https://travis-ci.com/rokhimin/Atem-bot.svg?branch=master)](https://travis-ci.com/rokhimin/Atem-bot)
-![Coverage Status](https://img.shields.io/badge/coverage-99%25-green)
 
 # Atem
 discord & telegram bot for search yugioh card, newst meta deck . written in Ruby.
 
 ### Play
 
-> [Discord](https://discordbots.org/bot/617492380710469763) | Telegram(soon..)
+> Discord : https://discordbots.org/bot/617492380710469763
+> Telegram : https://t.me/atem4bot
 
 ### features
 - quick search yugioh card 
