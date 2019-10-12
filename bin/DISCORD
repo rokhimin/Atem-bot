@@ -36,7 +36,8 @@ module Bot
 
 		  BOT_PRODUCTION = Discordrb::Commands::CommandBot.new(client_id: CONFIG.client_id_discord,
 													token: CONFIG.token_discord,
-													prefix: CONFIG.prefix_discord_production)
+													prefix: CONFIG.prefix_discord_production,
+													compress_mode: :large)
 
 		  def self.load_modules(klass, path)
 			new_module = Module.new
@@ -50,6 +51,7 @@ module Bot
 		  load_modules(:DiscordEvents, 'events')
 		  load_modules(:DiscordCommands, 'commands')
 			puts "[MODE : Production]"
+		  BOT_PRODUCTION.gateway.check_heartbeat_acks = false
 		  BOT_PRODUCTION.run
 
 		else
