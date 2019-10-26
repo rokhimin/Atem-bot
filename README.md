@@ -15,7 +15,8 @@ discord & telegram bot for search yugioh card, newst meta deck . written in Ruby
 ### Play
 
 > Discord : https://discordbots.org/bot/617492380710469763
-> Telegram : https://t.me/atem4bot
+
+> Telegram : ~~https://t.me/atem4bot~~
 
 ### features
 - quick search yugioh card 
