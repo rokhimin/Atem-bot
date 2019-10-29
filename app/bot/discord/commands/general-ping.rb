@@ -1,14 +1,11 @@
 module Bot::DiscordCommands
   module Ping
     extend Discordrb::Commands::CommandContainer
-            CONFIG = OpenStruct.new YAML.load_file 'config/config.yaml'
-            command(:ping) do |event|
-					url = "#{CONFIG.api}dark magician"
-					uri = URI(url)
-					response = Net::HTTP.get(uri)
-					atem = JSON.parse(response)
+		
+    command(:ping) do |event|
+					atem = Ygoprodeck::Name.is('dark magician')
 					
-					if atem[0] == nil
+					if atem['id'] == nil
 						data_api = "ERROR"
 					else
 						data_api = "#{((Time.now - event.timestamp) * 100 - 40).to_i}ms."

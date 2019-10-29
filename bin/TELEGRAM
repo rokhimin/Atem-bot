@@ -6,6 +6,9 @@ require 'net/http'
 require 'json'
 require 'ostruct'
 require 'yaml'
+
+require 'ygoprodeck'
+
 # Core
 require './app/bot/telegram/atem'
 

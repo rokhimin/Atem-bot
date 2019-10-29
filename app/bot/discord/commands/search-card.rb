@@ -1,7 +1,7 @@
 module Bot::DiscordCommands
 	module Searchcard 
 		extend Discordrb::EventContainer
-			CONFIG = OpenStruct.new YAML.load_file 'config/config.yaml'
+		
 				message(description: 'searchcard') do |event|
 					card = event.message.content
 					temp1 = card.sub("::", "<begin:atem>")
@@ -12,12 +12,9 @@ module Bot::DiscordCommands
 					
 					unless carry == checker
 					else
-					url = "#{CONFIG.api}#{from}"
-					uri = URI(url)
-					response = Net::HTTP.get(uri)
-					atem = JSON.parse(response)
+					atem = Ygoprodeck::Fname.is(from)
 			
-					if atem[0] == nil
+					if atem["id"] == nil
 						event.channel.send_embed do |embed|
 							embed.colour = 0xff1432
 							embed.description = "'#{from}' not found"
@@ -25,19 +22,19 @@ module Bot::DiscordCommands
 						end
 				
 					elsif carry == checker
-						id = atem[0]["id"]
-						name = atem[0]["name"]
-						type = atem[0]["type"]
-						attribute = atem[0]["attribute"]
-						level = atem[0]["level"]
-						race = atem[0]["race"]
-						desc = atem[0]["desc"]
-						m_atk = atem[0]["atk"]
-						m_def = atem[0]["def"]
+						id = atem["id"]
+						name = atem["name"]
+						type = atem["type"]
+						attribute = atem["attribute"]
+						level = atem["level"]
+						race = atem["race"]
+						desc = atem["desc"]
+						m_atk = atem["atk"]
+						m_def = atem["def"]
 						about = []
-						pict = "#{CONFIG.api_pict}#{id}.jpg"
+						pict = Ygoprodeck::Image.is(id)
 				
-						unless atem[0] == nil
+						unless atem['id'] == nil
 						case type
 							when "Normal Monster"
 								about << "[ #{race} ]"	 

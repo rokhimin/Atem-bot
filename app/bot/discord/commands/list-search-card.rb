@@ -1,16 +1,12 @@
 module Bot::DiscordCommands
   module Listsrccard
     extend Discordrb::Commands::CommandContainer
-            CONFIG = OpenStruct.new YAML.load_file 'config/config.yaml'
 	  
 	 	 command(:src) do |event, *from|
-                temp = from.join(' ')
-				url = "#{CONFIG.api}#{temp}"
-				uri = URI(url)
-				response = Net::HTTP.get(uri)
-				atem = JSON.parse(response)
+        temp = from.join(' ')
+				atem = Ygoprodeck::List.is(temp)
 				
-				if atem[0] == nil				
+				if atem[0]['id'] == nil				
 					event.channel.send_embed do |embed|
 					embed.colour = 0xff8040 #orange
 					embed.add_field(name: "0 card matches for ``#{temp}``", value: "try again aibou..", inline: true)

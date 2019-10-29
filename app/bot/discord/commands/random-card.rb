@@ -2,25 +2,20 @@ module Bot::DiscordCommands
   module Randomcard
     extend Discordrb::Commands::CommandContainer
 	  
-		CONFIG = OpenStruct.new YAML.load_file 'config/config.yaml'
-	
 	  	command(:random) do |event|
-			url = "#{CONFIG.api_rand}"
-			uri = URI(url)
-			response = Net::HTTP.get(uri)
-			atem = JSON.parse(response)
-			
-			id = atem[0]["id"]
-			name = atem[0]["name"]
-			type = atem[0]["type"]
-			attribute = atem[0]["attribute"]
-			level = atem[0]["level"]
-			race = atem[0]["race"]
-			desc = atem[0]["desc"]
-			m_atk = atem[0]["atk"]
-			m_def = atem[0]["def"]
-			about = []
-			pict = "#{CONFIG.api_pict}#{id}.jpg"
+				atem = Ygoprodeck::Card.random
+
+				id = atem["id"]
+				name = atem["name"]
+				type = atem["type"]
+				attribute = atem["attribute"]
+				level = atem["level"]
+				race = atem["race"]
+				desc = atem["desc"]
+				m_atk = atem["atk"]
+				m_def = atem["def"]
+				about = []
+				pict = Ygoprodeck::Image.is(id)
 			
 				case type
 					when "Normal Monster"

@@ -1,11 +1,9 @@
 #!/usr/bin/env ruby
 require 'discordrb'
+require 'ygoprodeck'
+require 'nokogiri'
 require 'ostruct'
 require 'yaml'
-require 'nokogiri'
-require 'open-uri'
-require 'net/http'
-require 'json'
 
 module Bot
 
