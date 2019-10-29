@@ -1,13 +1,9 @@
 #!/usr/bin/env ruby
 require 'telegram/bot'
+require 'ygoprodeck'
 require 'nokogiri'
-require 'open-uri'
-require 'net/http'
-require 'json'
 require 'ostruct'
 require 'yaml'
-
-require 'ygoprodeck'
 
 # Core
 require './app/bot/telegram/atem'
