@@ -12,11 +12,14 @@
 # Atem
 discord & telegram bot for search yugioh card, newst meta deck . written in Ruby.
 
-### Play
+### todo
+- ~~Line~~ 
+
+### play
 
 > Discord : https://discordbots.org/bot/617492380710469763
 
-> Telegram : ~~https://t.me/atem4bot~~
+> Telegram : https://t.me/atem4bot~~
 
 ### features
 - quick search yugioh card 
@@ -24,7 +27,7 @@ discord & telegram bot for search yugioh card, newst meta deck . written in Ruby
 - tier list deck meta (duel links)
 
 ### usage
-|   Commands    |    Discord    |    Discord    |
+|   Commands    |    Discord    |    Telegram    |
 | ------------- | ------------- | ------------- |
 | information  | ```atem:info``` | ```/info``` |
 | ping | ```atem:ping``` | ```/ping``` |
