@@ -6,7 +6,7 @@
   <img src="https://discordbots.org/api/widget/status/617492380710469763.svg" alt="Atem" />
 </a>
 
-![Lang](https://img.shields.io/badge/Language-Ruby-red)
+![Lang](https://img.shields.io/badge/language-ruby-red)
 [![Build Status](https://travis-ci.com/rokhimin/Atem-bot.svg?branch=master)](https://travis-ci.com/rokhimin/Atem-bot)
 
 # Atem
@@ -23,15 +23,15 @@ discord & telegram bot for search yugioh card, newst meta deck . written in Ruby
 - list search yugioh card
 - tier list deck meta (duel links)
 
-### use
-|   Commands    |    Discord    |
-| ------------- | ------------- |
-|  information  |  ```atem:info```    |
-| ping  | ```atem:ping```  |
-| meta deck (duel links)  | ```atem:dlmeta```  |
-| random card | ```atem:random``` |
-| list search card  |  ```atem:src card_name```    |
-| quick search card | ```::card_name::``` |
+### usage
+|   Commands    |    Discord    |    Discord    |
+| ------------- | ------------- | ------------- |
+| information  | ```atem:info``` | ```/info``` |
+| ping | ```atem:ping``` | ```/ping``` |
+| meta deck (duel links) | ```atem:dlmeta```  | ```/duellinksmeta``` |
+| random card | ```atem:random``` | ```/random``` |
+| list search card  |  ```atem:src card_name```    | ```/searchlist``` |
+| quick search card | ```::card_name::``` | ```::card_name::``` |
 
 ### developer tool tasks
 install gem :
