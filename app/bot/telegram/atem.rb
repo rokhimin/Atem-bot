@@ -34,14 +34,20 @@ class Atem
                 when '/random'
                   bot.api.send_message(chat_id: message.chat.id, text: "#{Random.message}", parse_mode: 'Markdown')
 								
-							  # search list card
+							  # search list search card
                 when '/searchlist ' + listsrc
                   bot.api.send_message(chat_id: message.chat.id, text: "#{Searchlist.message(listsrc)}", parse_mode: 'Markdown')
+							  # exception list search card
+                when '/searchlist'
+                  bot.api.send_message(chat_id: message.chat.id, text: "/searchlist <name card>", parse_mode: 'Markdown')
 								
 							  # search card
                 when '/search ' + src
 				  	  	  bot.api.send_photo(chat_id: message.chat.id, photo: "#{Pict.link(src)}")
 									bot.api.send_message(chat_id: message.chat.id, text: "#{Search.message(src)}", parse_mode: 'Markdown')
+							  # exception search card
+                when '/search'
+                  bot.api.send_message(chat_id: message.chat.id, text: "/search <name card>", parse_mode: 'Markdown')
 								
 								else
 								# quick search card
