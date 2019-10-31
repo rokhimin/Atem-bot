@@ -19,7 +19,7 @@ discord & telegram bot for search yugioh card, newst meta deck . written in Ruby
 
 > Discord : https://discordbots.org/bot/617492380710469763
 
-> Telegram : https://t.me/atem4bot~~
+> Telegram : https://t.me/Atem_YugiohBot
 
 ### features
 - quick search yugioh card 
@@ -30,7 +30,7 @@ discord & telegram bot for search yugioh card, newst meta deck . written in Ruby
 |   Commands    |    Discord    |    Telegram    |
 | ------------- | ------------- | ------------- |
 | information  | ```atem:info``` | ```/info``` |
-| ping | ```atem:ping``` | ```/ping``` |
+| ping | ```atem:ping``` |  |
 | meta deck (duel links) | ```atem:dlmeta```  | ```/duellinksmeta``` |
 | random card | ```atem:random``` | ```/random``` |
 | list search card  |  ```atem:src card_name```    | ```/searchlist``` |
