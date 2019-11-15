@@ -2,8 +2,8 @@
 
 <img align="center" width="150" src="https://i.imgur.com/Fgolqn1.png" />
 
-<a href="https://discordbots.org/bot/617492380710469763" >
-  <img src="https://discordbots.org/api/widget/status/617492380710469763.svg" alt="Atem" />
+<a href="https://top.gg/bot/617492380710469763" >
+  <img src="https://top.gg/api/widget/status/617492380710469763.svg" alt="Atem" />
 </a>
 
 ![Lang](https://img.shields.io/badge/language-ruby-red)
@@ -17,7 +17,7 @@ discord & telegram bot for search yugioh card, newst meta deck . written in Ruby
 
 ### play
 
-> Discord : https://discordbots.org/bot/617492380710469763
+> Discord : https://top.gg/bot/617492380710469763
 
 > Telegram : https://t.me/Atem_YugiohBot
 
@@ -37,25 +37,9 @@ discord & telegram bot for search yugioh card, newst meta deck . written in Ruby
 | quick search card | ```::card_name::``` | ```::card_name::``` |
 
 ### developer tool tasks
-install gem :
- ```
- rake gem:install
- ```
-create db :
- ```
- rake db:create
- ```
-migration db :
- ```
- rake db:migrate
- ```
-drop db :
- ```
- rake db:drop
- ```
 test :
  ```
- rake run:rspec
+ rake run:spec
  ```
 run bot discord :
  ```
@@ -71,6 +55,6 @@ run bot telegram :
 Apache License.
 
 
-<a href="https://discordbots.org/bot/617492380710469763" >
-  <img src="https://discordbots.org/api/widget/617492380710469763.svg" alt="Atem" />
+<a href="https://top.gg/bot/617492380710469763" >
+  <img src="https://top.gg/api/widget/617492380710469763.svg" alt="Atem" />
 </a>
