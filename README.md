@@ -39,7 +39,7 @@ discord & telegram bot for search yugioh card, newst meta deck . written in Ruby
 ### developer tool tasks
 test :
  ```
- rake run:spec
+ rake run:rspec
  ```
 run bot discord :
  ```

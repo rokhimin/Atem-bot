@@ -2,7 +2,7 @@ task :default => [:welcome]
 
 namespace :run do
   desc "running driven test"
-  task :spec do
+  task :rspec do
     sh 'rspec spec/index_spec.rb'
   end
   desc "running discord bot"
