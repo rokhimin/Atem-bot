@@ -10,7 +10,7 @@
 # Atem Bot
 discord, Telegram, and Whatsapp bot for search yugioh card
 
-<img align="center" width="30%" src="https://i.imgur.com/SS9VM9L.gif" />
+<img align="center" width="350" src="https://i.imgur.com/SS9VM9L.gif" />
 
 ## Library
 - Discord => Discordrb
