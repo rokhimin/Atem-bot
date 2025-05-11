@@ -7,7 +7,6 @@
 </a>
 
 ![Lang](https://img.shields.io/badge/language-ruby-red)
-[![Build Status](https://travis-ci.com/rokhimin/Atem-bot.svg?branch=master)](https://travis-ci.com/rokhimin/Atem-bot)
 
 # Atem
 discord & telegram bot for search yugioh card, newst meta deck . written in Ruby.
