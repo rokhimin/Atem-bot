@@ -1,4 +1,4 @@
-import { BaileysClass } from '../lib/baileys.js';
+import { BaileysClass } from '../../../lib/baileys.js';
 import fetch from 'node-fetch';
 
 const botBaileys = new BaileysClass({});

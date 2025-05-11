@@ -1,22 +1,24 @@
 task :default => [:welcome]
 
+task :welcome do
+  puts "rake run:rspec => Unit Test \nrake run:dc => Run bot Discord \nrake run:tele => Run bot Telegram \nrake run:wa => Run bot Whatsapp \n===============================\nfollow my Github https://github.com/rokhimin"
+end
+
 namespace :run do
-  desc "running driven test"
+
   task :rspec do
     sh 'rspec spec/index_spec.rb'
   end
-  desc "running discord bot"
-  task :discord do
+  task :dc do
     sh 'ruby bin/DISCORD'
   end
-  desc "running telegram bot"
-  task :telegram do
+  task :tele do
     sh 'ruby bin/TELEGRAM'
   end
-end
-
-task :welcome do
-  puts "hi follow my twitter https://twitter.com/rokhiminwahid"
+  task :wa do
+    sh 'npm run app'
+  end
+  
 end
 
 

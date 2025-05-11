@@ -6,7 +6,7 @@
   "types": "lib/baileys.d.ts",
   "scripts": {
     "build": "tsc",
-    "app": "tsc && node -r ts-node/register app/bot.ts"
+    "app": "tsc && node -r ts-node/register app/bot/whatsapp/bot.ts"
   },
   "repository": {
     "type": "git",
