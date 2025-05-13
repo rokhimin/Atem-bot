@@ -28,7 +28,6 @@ discord, Telegram, and Whatsapp bot for search yugioh card
 ### Features
 - quick search yugioh card 
 - list search yugioh card
-- tier list deck meta (duel links)
 
 ### Prerequisite
 - Ruby 2.7.0 up
@@ -49,10 +48,9 @@ npm i
 | ------------- | ------------- | ------------- | ------------- |
 | information  | ```atem:info``` |  |.atem |
 | ping | ```atem:ping``` |  |  |
-| meta deck (duel links) | ```atem:dlmeta```  | ```/duellinksmeta``` |  |
 | random card | ```atem:random``` | ```/random``` |  |
 | list search card  |  ```atem:src card_name```    | ```/searchlist``` |  |
-| quick search card | ```::card_name::``` | ```::card_name::``` | ```[[card_name]]``` |
+| quick search card | ```::card_name::``` | ```::card_name::``` | ```::card_name::``` |
 
 ### Developer Tool
 unit test :

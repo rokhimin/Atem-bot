@@ -6,8 +6,7 @@ const botBaileys = new BaileysClass({});
 botBaileys.on('auth_failure', async (error) => console.log("ERROR BOT: ", error));
 botBaileys.on('qr', (qr) => console.log("NEW QR CODE: ", qr));
 botBaileys.on('ready', async () => console.log('READY BOT'))
-
-const formatPattern = /\[\[ *(.*?) *\]\]/;
+const formatPattern = /:: *(.*?) *::/;
 
 async function fetchCardData(cardName: string): Promise<{ info: string, imageUrl?: string }> {
     try {
@@ -43,8 +42,28 @@ botBaileys.on('message', async (message) => {
     const match = message.body.match(formatPattern);
 
     // information bot
-    if (message.body.toLowerCase() === '.atem') {
-        await botBaileys.sendText(message.from, '*Atem* (version 1.0.0)\nCreated and Developed by 089612893953 (whdzera)\n\n*Usage*\nwrite [[name card]] to searching\n\n*Donation*\nhttps://saweria.co/whdzera');
+    if (message.body.toLowerCase() === ':atem') {
+        await botBaileys.sendText(message.from, '*Atem* (version 1.0.0)\nCreated and Developed by 089612893953 (whdzera)\n\n*Usage*\n- :status => information Latency Sever Bot\n- ::name card:: => search yugioh card\n\n*Donation*\nhttps://saweria.co/whdzera');
+    }
+
+    // Status Latency API and Server
+    if (message.body.toLowerCase() === ':status') {
+      const start = Date.now();
+
+      let apiLatency: string;
+      try {
+        const res = await fetch('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=dark%20magician');
+        const json = await res.json();
+        const end = Date.now();
+        apiLatency = json?.data?.[0]?.id ? `${end - start}ms.` : 'ERROR';
+      } catch (err) {
+        apiLatency = 'ERROR';
+      }
+
+      const serverLatency = Date.now() - start;
+
+      const messageStatus = `*Status*\n- Server latency: ${serverLatency - 40}ms.\n- API latency: ${apiLatency}`;
+      await botBaileys.sendText(message.from, messageStatus);
     }
 
     // Search yugioh card in group
