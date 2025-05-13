@@ -1,5 +1,9 @@
 import { BaileysClass } from '../../../lib/baileys.js';
 import fetch from 'node-fetch';
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config({ path: path.resolve(__dirname, '../../../config/.env') });
 
 const botBaileys = new BaileysClass({});
 
@@ -7,6 +11,9 @@ botBaileys.on('auth_failure', async (error) => console.log("ERROR BOT: ", error)
 botBaileys.on('qr', (qr) => console.log("NEW QR CODE: ", qr));
 botBaileys.on('ready', async () => console.log('READY BOT'))
 const formatPattern = /:: *(.*?) *::/;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
 
 async function fetchCardData(cardName: string): Promise<{ info: string, imageUrl?: string }> {
     try {
@@ -73,8 +80,34 @@ botBaileys.on('message', async (message) => {
         if (result.imageUrl) {
             await botBaileys.sendMedia(message.from, result.imageUrl, result.info);
         }
-        else
-            await botBaileys.sendText(message.from, 'Card Not Found');
+        else {
+    const prompt = `cari kartu yugioh ${extractedText}, jika tidak ada tolong perbaiki nama nya agar mendekati nama kartu yugioh yang ada di database`;
+
+    try {
+        const geminiResponse = await fetch(GEMINI_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }]
+        })
+        });
+
+        if (geminiResponse.ok) {
+        const data = await geminiResponse.json();
+        const botResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'Maaf, saya tidak bisa memproses permintaan Anda.';
+        
+        const matchAnswer = botResponse.match(/^(.+?\n\n?){1,4}/m)?.[0] || botResponse;
+
+        await botBaileys.sendText(message.from, `*Card Not Found*\n\n[Help AI]\n${matchAnswer}`);
+        } else {
+        await botBaileys.sendText(message.from, 'Card Not Found.\n\n[Help AI] Gemini API error.');
+        }
+    } catch (error) {
+        console.error('Gemini AI Error:', error);
+        await botBaileys.sendText(message.from, 'Card Not Found.\n\n[Help AI] Internal error when contacting Gemini.');
+    }
+    }
+
     }
     
 });

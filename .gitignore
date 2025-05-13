@@ -9,5 +9,5 @@ core.class.log
 db.json
 lib/
 *.qr.png
-
+/config/.env
 

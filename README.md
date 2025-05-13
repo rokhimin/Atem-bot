@@ -28,6 +28,7 @@ discord, Telegram, and Whatsapp bot for search yugioh card
 ### Features
 - quick search yugioh card 
 - list search yugioh card
+- Help AI if card not found
 
 ### Prerequisite
 - Ruby 2.7.0 up
@@ -46,8 +47,8 @@ npm i
 ### Usage
 |   Commands    |    Discord    |    Telegram    |    Whatsapp    |
 | ------------- | ------------- | ------------- | ------------- |
-| information  | ```atem:info``` |  |.atem |
-| ping | ```atem:ping``` |  |  |
+| information  | ```atem:info``` |  | :atem |
+| ping or status | ```atem:ping``` |  | :status |
 | random card | ```atem:random``` | ```/random``` |  |
 | list search card  |  ```atem:src card_name```    | ```/searchlist``` |  |
 | quick search card | ```::card_name::``` | ```::card_name::``` | ```::card_name::``` |

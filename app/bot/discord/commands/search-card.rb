@@ -65,9 +65,51 @@ module Bot::DiscordCommands
               send_card_embed(event, card_data)
             end
           rescue => e
-            # Handle any errors from the API
-            event.channel.send_message("Error searching for card")
-			puts e.message
+
+             with_message = <<~CONTEXT
+    cari kartu yugioh #{card_name}, jika tidak ada tolong perbaiki nama nya agar mendekati nama kartu yugioh yang ada di database
+    CONTEXT
+
+    # API endpoint for Gemini 
+    api_key = Bot::CONFIG.api_gemini
+    uri = URI.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=#{api_key}")
+    
+    # Request data
+    request_data = {
+      contents: [{
+        parts: [{ text: with_message }]
+      }]
+    }
+    
+    # Make HTTP request
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    request = Net::HTTP::Post.new(uri.request_uri, {'Content-Type' => 'application/json'})
+    request.body = request_data.to_json
+    
+    response = http.request(request)
+    
+    if response.code == "200"
+      result = JSON.parse(response.body)
+      
+      # Extract response text
+      bot_response = "I'm sorry, I couldn't process your request."
+      
+      if result && 
+         result["candidates"] && 
+         result["candidates"][0] && 
+         result["candidates"][0]["content"] && 
+         result["candidates"][0]["content"]["parts"] && 
+         result["candidates"][0]["content"]["parts"][0]
+        bot_response = result["candidates"][0]["content"]["parts"][0]["text"]
+        match_answer = bot_response.match(/^(.+?\n\n){1,4}/m)
+      end
+
+      # Handle any errors from the API
+      event.channel.send_message("Error searching for card\n\n[Help AI]\n#{match_answer}")
+
+    end
+			puts "[ERROR_API : #{Time.now}]#{e.message}"
           end
         end
       end
