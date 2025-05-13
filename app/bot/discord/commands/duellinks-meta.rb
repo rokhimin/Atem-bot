@@ -1,58 +1,177 @@
 module Bot::DiscordCommands
   module Dlmeta
     extend Discordrb::Commands::CommandContainer
-	  
-	  command(:dlmeta) do |event|
-        	url = Nokogiri::HTML(open("https://www.duellinksmeta.com/tier-list"))
-				
-			date = ''
-            date << url.css('h4')[0]
-
-			#tier1 
-			tier1 = []
-			count1 = 7
-			t1_default = 0
-			for logic_tier1 in 1..7 do
-				main1 = url.css('div.button-row')[0]
-				works1 = main1.css('span.decktype-display')[t1_default].to_s 
-				tier1 << works1.gsub(/<\/?[^>]+>/, '')
-				t1_default += 1
-				count1 -= 1
-			end
-
-			#tier2
-			tier2 = []
-			count2 = 7
-			t2_default = 0
-			for logic_tier2 in 1..7 do
-				main2 = url.css('div.button-row')[1]
-				works2 = main2.css('span.decktype-display')[t2_default].to_s 
-				tier2 << works2.gsub(/<\/?[^>]+>/, '')
-				t2_default += 1
-				count2 -= 1
-			end
-
-			#tier3
-			tier3 = []
-			count3 = 7
-			t3_default = 0
-			for logic_tier3 in 1..7 do
-				main3 = url.css('div.button-row')[2]
-				works3 = main3.css('span.decktype-display')[t3_default].to_s 
-				tier3 << works3.gsub(/<\/?[^>]+>/, '')
-				t3_default += 1
-				count3 -= 1
-			end
-		  	
-			event.channel.send_embed do |embed|
-				embed.colour = 0xff8040 #orange
-				embed.description = "#{date}"
-				embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "source : DuelLinksMeta.com")
-				  embed.add_field(name: "Tier 1", value: " #{tier1.join(" \n")}", inline: true)
-				  embed.add_field(name: "Tier 2", value: " #{tier2.join(" \n")}", inline: true)
-				  embed.add_field(name: "Tier 3", value: " #{tier3.join(" \n")}", inline: true)
-			end
-	  end
-	  
+    
+    command(:dlmeta) do |event|
+      begin
+        
+        user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+        url_address = "https://www.duellinksmeta.com/tier-list"
+        
+        html_content = URI.open(url_address, "User-Agent" => user_agent).read
+        doc = Nokogiri::HTML(html_content)
+        
+        script_tags = doc.css('script')
+        
+        tier_list_data = nil
+        last_updated = "Tier List"
+        
+        script_tags.each do |script|
+          script_content = script.text
+          
+          if script_content.include?('window.__NEXT_DATA__') && script_content.include?('tier-list')
+            begin
+              json_match = script_content.match(/window\.__NEXT_DATA__ = ({.*})/m)
+              if json_match
+                json_data = JSON.parse(json_match[1])
+                
+                if json_data && json_data['props'] && json_data['props']['pageProps']
+                  props = json_data['props']['pageProps']
+                  
+                  if props['tierList']
+                    tier_list_data = props['tierList']
+                    last_updated = props['lastUpdated'] || props['updatedAt'] || "Tier List"
+                  elsif props['dehydratedState'] && props['dehydratedState']['queries']
+                    queries = props['dehydratedState']['queries']
+                    queries.each do |query|
+                      if query['state'] && query['state']['data']
+                        if query['state']['data']['tierList']
+                          tier_list_data = query['state']['data']['tierList']
+                        elsif query['state']['data']['lastUpdated']
+                          last_updated = query['state']['data']['lastUpdated']
+                        end
+                      end
+                    end
+                  end
+                end
+                
+                break if tier_list_data
+              end
+            rescue JSON::ParserError => e
+              next
+            end
+          end
+        end
+        
+        if tier_list_data.nil?
+          tiers_data = {}
+          
+          date_element = doc.css('.header-container h4, .tier-list-date, .last-updated, p.update-date').first
+          last_updated = date_element ? date_element.text.strip : "Tier List"
+          
+          tier_sections = doc.css('.tierlist-row, .tier-container, [class*="tier-list_tier"]')
+          
+          if !tier_sections.empty?
+            tier_sections.each_with_index do |section, index|
+              tier_name_element = section.css('h2, h3, .tier-name, div[class*="tierHeader"]').first
+              tier_name = tier_name_element ? tier_name_element.text.strip : "Tier #{index + 1}"
+              
+              decks = []
+              deck_elements = section.css('.deck-name, .deck-title, [class*="deckTypeDisplay"], [class*="deckItem"]')
+              
+              if !deck_elements.empty?
+                deck_elements.each do |deck_element|
+                  deck_name = deck_element.text.strip
+                  decks << deck_name unless deck_name.empty?
+                end
+              end
+              
+              tiers_data[tier_name] = decks.empty? ? ["Data tidak tersedia"] : decks
+              
+              break if index >= 2
+            end
+          end
+        else
+          tiers_data = {}
+          
+          if tier_list_data.is_a?(Array)
+            tier_list_data.each_with_index do |tier, index|
+              break if index >= 3
+              
+              tier_name = tier['name'] || "Tier #{index + 1}"
+              decks = []
+              
+              if tier['decks'] && tier['decks'].is_a?(Array)
+                tier['decks'].each do |deck|
+                  deck_name = deck['name'] || deck['displayName'] || deck['deckType']
+                  decks << deck_name if deck_name
+                end
+              end
+              
+              tiers_data[tier_name] = decks.empty? ? ["Data tidak tersedia"] : decks
+            end
+          elsif tier_list_data.is_a?(Hash) && tier_list_data['tiers']
+            tier_list_data['tiers'].each_with_index do |tier, index|
+              break if index >= 3 
+              
+              tier_name = tier['name'] || "Tier #{index + 1}"
+              decks = []
+              
+              if tier['decks'] && tier['decks'].is_a?(Array)
+                tier['decks'].each do |deck|
+                  deck_name = deck['name'] || deck['displayName'] || deck['deckType']
+                  decks << deck_name if deck_name
+                end
+              end
+              
+              tiers_data[tier_name] = decks.empty? ? ["Data tidak tersedia"] : decks
+            end
+          end
+        end
+        
+        if tiers_data.empty?
+          (1..3).each do |tier_num|
+            tier_name = "Tier #{tier_num}"
+            deck_elements = doc.css("[class*='tier-#{tier_num}'] [class*='deck'], [class*='tier#{tier_num}'] [class*='deck']")
+            
+            if deck_elements.empty?
+              deck_elements = doc.css("[data-tier='#{tier_num}'] [class*='deck']")
+            end
+            
+            decks = []
+            deck_elements.each do |element|
+              deck_name = element.text.strip
+              decks << deck_name unless deck_name.empty?
+            end
+            
+            tiers_data[tier_name] = decks.empty? ? ["Data tidak tersedia"] : decks
+          end
+        end
+        
+        tier_keys = tiers_data.keys
+        
+        tier_keys = tier_keys.sort_by do |k| 
+          matches = k.scan(/\d+/)
+          matches.empty? ? 999 : matches.first.to_i
+        end
+        
+        while tier_keys.length < 3
+          next_tier = "Tier #{tier_keys.length + 1}"
+          tier_keys << next_tier
+          tiers_data[next_tier] = ["Data tidak tersedia"]
+        end
+        
+        event.channel.send_embed do |embed|
+          embed.colour = 0xff8040 
+          embed.title = "Yu-Gi-Oh! Duel Links Tier List"
+          embed.description = "Last Updated: #{last_updated}"
+          embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Source: DuelLinksMeta.com")
+          
+          tier_keys.slice(0, 3).each do |tier_name|
+            tier_decks = tiers_data[tier_name]
+            if tier_decks.length > 10
+              tier_decks = tier_decks[0..9] + ["...and #{tier_decks.length - 10} more"]
+            end
+            embed.add_field(name: tier_name, value: tier_decks.join("\n"), inline: true)
+          end
+        end
+        
+      rescue OpenURI::HTTPError => e
+        event.respond "Error: Tidak dapat mengakses website (#{e.message})"
+      rescue StandardError => e
+        event.respond "Error: #{e.message}\n#{e.backtrace.join("\n")}"
+      end
+    end
+    
   end
 end

@@ -13,6 +13,5 @@ module Bot::DiscordCommands
 				embed.add_field name: "**tier meta deck (duel links) :**", value: "``atem:dlmeta``"
 			end
 	  end
-	  
   end
 end

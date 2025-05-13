@@ -1,205 +1,145 @@
 module Bot::DiscordCommands
-	module Searchcard 
-		extend Discordrb::EventContainer
-		
-				message(description: 'searchcard') do |event|
-					card = event.message.content
-					temp1 = card.sub("::", "<begin:atem>")
-					temp2 = temp1.sub("::", "<end:atem>")
-					from = /(?<=<begin:atem>).+(?=<end:atem>)/.match(temp2)
-					carry = "#{/<end:atem>/.match(temp2)}"
-					checker = "<end:atem>"
-					
-					unless carry == checker
-					else
-					atem = Ygoprodeck::Fname.is(from)
-			
-					if atem["id"] == nil
-						event.channel.send_embed do |embed|
-							embed.colour = 0xff1432
-							embed.description = "'#{from}' not found"
-							embed.image = Discordrb::Webhooks::EmbedImage.new(url: "https://i.imgur.com/lPSo3Tt.jpg")
-						end
-				
-					elsif carry == checker
-						id = atem["id"]
-						name = atem["name"]
-						type = atem["type"]
-						attribute = atem["attribute"]
-						level = atem["level"]
-						race = atem["race"]
-						desc = atem["desc"]
-						m_atk = atem["atk"]
-						m_def = atem["def"]
-						about = []
-						pict = Ygoprodeck::Image.is(id)
-				
-						unless atem['id'] == nil
-						case type
-							when "Normal Monster"
-								about << "[ #{race} ]"	 
-								color = 0xdac14c
+  module Searchcard 
+    extend Discordrb::EventContainer
+    
+    MONSTER_TYPES = {
+      "Normal Monster" => { color: 0xdac14c, suffix: "" },
+      "Normal Tuner Monster" => { color: 0xdac14c, suffix: "/ Tuner" },
+      "Effect Monster" => { color: 0xa87524, suffix: "/ Effect" },
+      "Flip Effect Monster" => { color: 0xa87524, suffix: "/ Flip / Effect" },
+      "Flip Tuner Effect Monster" => { color: 0xa87524, suffix: "/ Flip / Tuner / Effect" },
+      "Tuner Monster" => { color: 0xa87524, suffix: "/ Tuner / Effect" },
+      "Toon Monster" => { color: 0xa87524, suffix: "/ Toon / Effect" },
+      "Gemini Monster" => { color: 0xa87524, suffix: "/ Gemini / Effect" },
+      "Spirit Monster" => { color: 0xa87524, suffix: "/ Spirit / Effect" },
+      "Union Effect Monster" => { color: 0xa87524, suffix: "/ Union / Effect" },
+      "Union Tuner Effect Monster" => { color: 0xa87524, suffix: "/ Union / Tuner / Effect" },
+      "Ritual Monster" => { color: 0x293cbd, suffix: "/ Ritual" },
+      "Ritual Effect Monster" => { color: 0x293cbd, suffix: "/ Ritual / Effect" },
+      "Fusion Monster" => { color: 0x9115ee, suffix: "/ Fusion / Effect" },
+      "Synchro Monster" => { color: 0xfcfcfc, suffix: "/ Synchro / Effect" },
+      "Synchro Pendulum Effect Monster" => { color: 0xfcfcfc, suffix: "/ Synchro / Pendulum / Effect" },
+      "Synchro Tuner Monster" => { color: 0xfcfcfc, suffix: "/ Synchro / Tuner / Effect" },
+      "XYZ Monster" => { color: 0x252525, suffix: "/ XYZ / Effect" },
+      "XYZ Pendulum Effect Monster" => { color: 0x252525, suffix: "/ XYZ / Pendulum / Effect" },
+      "Pendulum Effect Monster" => { color: 0x84b870, suffix: "/ Pendulum / Effect" },
+      "Pendulum Flip Effect Monster" => { color: 0x84b870, suffix: "/ Pendulum / Flip / Effect" },
+      "Pendulum Normal Monster" => { color: 0x84b870, suffix: "/ Pendulum" },
+      "Pendulum Tuner Effect Monster" => { color: 0x84b870, suffix: "/ Pendulum / Tuner / Effect" },
+      "Pendulum Effect Fusion Monster" => { color: 0x84b870, suffix: "/ Pendulum / Effect / Fusion" },
+      "Link Monster" => { color: 0x293cbd, suffix: "/ Link / Effect" }
+    }
+    
+    NON_MONSTER_TYPES = {
+      "Spell Card" => { color: 0x258b5c },
+      "Trap Card" => { color: 0xc51a57 },
+      "Skill Card" => { color: 0x252525 }
+    }
+    
+    NOT_FOUND_IMAGE = "https://i.imgur.com/lPSo3Tt.jpg"
 
-							when "Normal Tuner Monster"
-								about << "[ #{race} / Tuner ]"
-								color = 0xdac14c
-
-							when "Effect Monster"
-								about << "[ #{race} / Effect ]"
-								color = 0xa87524
-
-							when "Flip Effect Monster"
-								about << "[ #{race} / Flip / Effect ]"
-								color = 0xa87524
-
-							when "Flip Tuner Effect Monster"
-								about << "[ #{race} / Flip / Tuner / Effect ]"
-								color = 0xa87524
-
-							when "Tuner Monster"
-								about << "[ #{race} / Tuner / Effect ]"
-								color = 0xa87524
-
-							when "Toon Monster"
-								about << "[ #{race} / Toon / Effect ]"
-								color = 0xa87524
-
-							when "Gemini Monster"
-								about << "[ #{race} / Gemini / Effect ]"
-								color = 0xa87524
-
-							when "Spirit Monster"
-								about << "[ #{race} / Spirit / Effect ]"
-								color = 0xa87524
-
-							when "Union Effect Monster"
-								about << "[ #{race} / Union / Effect ]"
-								color = 0xa87524
-
-							when "Union Tuner Effect Monster"
-								about << "[ #{race} / Union / Tuner / Effect ]"
-								color = 0xa87524
-
-							when "Ritual Monster"
-								about << "[ #{race} / Ritual ]"
-								color = 0x293cbd 
-
-							when "Ritual Effect Monster"
-								about << "[ #{race} / Ritual / Effect ]"
-								color = 0x293cbd
-
-							when "Fusion Monster"
-								about << "[ #{race} / Fusion / Effect ]"
-								color = 0x9115ee
-
-							when "Synchro Monster"
-								about << "[ #{race} / Synchro / Effect ]"
-								color = 0xfcfcfc
-
-							when "Synchro Pendulum Effect Monster"
-								about << "[ #{race} / Synchro / Pendulum / Effect ]"
-								color = 0xfcfcfc
-
-							when "Synchro Tuner Monster"
-								about << "[ #{race} / Synchro / Tuner / Effect ]"
-								color = 0xfcfcfc
-
-							when "XYZ Monster"
-								about << "[ #{race} / XYZ / Effect ]"
-								color = 0x252525
-
-							when "XYZ Pendulum Effect Monster"
-								about << "[ #{race} / XYZ / Pendulum / Effect ]"
-								color = 0x252525
-
-							when "Pendulum Effect Monster"
-								about << "[ #{race} / Pendulum / Effect ]"
-								color = 0x84b870
-
-							when "Pendulum Flip Effect Monster"
-								about << "[ #{race} / Pendulum / Flip / Effect ]"
-								color = 0x84b870
-
-							when "Pendulum Normal Monster"
-								about << "[ #{race} / Pendulum ]"
-								color = 0x84b870
-
-							when "Pendulum Tuner Effect Monster"
-								about << "[ #{race} / Pendulum / Tuner / Effect ]"
-								color = 0x84b870
-
-							when "Pendulum Effect Fusion Monster"
-								about << "[ #{race} / Pendulum / Effect / Fusion ]"
-								color = 0x84b870
-
-							when "Link Monster"
-								about << "[ #{race} / Link / Effect ]"
-								color = 0x293cbd
-
-							when "Spell Card"
-								color = 0x258b5c
-
-							when "Trap Card"
-								color = 0xc51a57
-
-							when "Skill Card"
-								color = 0x252525
-
-						end
-
-						case type
-							when "Normal Monster", 
-								"Normal Tuner Monster", 
-								"Effect Monster", 
-								"Flip Effect Monster", 
-								"Flip Tuner Effect Monster", 
-								"Tuner Monster", 
-								"Toon Monster", 
-								"Gemini Monster", 
-								"Spirit Monster", 
-								"Union Effect Monster", 
-								"Union Tuner Effect Monster", 
-								"Ritual Monster", 
-								"Ritual Effect Monster", 
-								"Fusion Monster", 
-								"Synchro Monster", 
-								"Synchro Pendulum Effect Monster", 
-								"Synchro Tuner Monster", 
-								"XYZ Monster", 
-								"XYZ Pendulum Effect Monster", 
-								"Pendulum Effect Monster", 
-								"Pendulum Flip Effect Monster", 
-								"Pendulum Normal Monster", 
-								"Pendulum Tuner Effect Monster", 
-								"Pendulum Effect Fusion Monster", 
-								"Link Monster"
-
-								event.channel.send_embed do |embed|
-									embed.colour = color
-									embed.add_field name: "**#{name}**", value: "**Type :** #{type} \n **Attribute :** #{attribute} \n **Level :** #{level}"
-									embed.add_field name: "#{about.join('')}", value: "#{desc}"
-									embed.add_field name: "ATK", value: "#{m_atk}", inline: true
-									embed.add_field name: "DEF", value: "#{m_def}", inline: true
-									embed.image = Discordrb::Webhooks::EmbedImage.new(url: pict)
-								end
-
-							when "Spell Card", 
-								"Trap Card", 
-								"Skill Card"
-
-								event.channel.send_embed do |embed|
-									embed.colour = color
-									embed.add_field name: "**#{name}**", value: "**Type :** #{type} \n **Property :** #{race}"
-									embed.add_field name: "Effect", value: "#{desc}"
-									embed.image = Discordrb::Webhooks::EmbedImage.new(url: pict)
-								end
-					
-							end
-						end
-					else
-					end
-				end
-			end
-	  
-	end
+    message(description: 'searchcard') do |event|
+      content = event.message.content
+      
+      # Check if content contains the pattern ::text::
+      if content.include?('::')
+        # Extract content between :: markers similar to the original code
+        temp1 = content.sub("::", "<begin:atem>")
+        temp2 = temp1.sub("::", "<end:atem>")
+        
+        # Find match between markers
+        match = /<begin:atem>(.+?)<end:atem>/.match(temp2)
+        carry = temp2.include?("<end:atem>") ? "<end:atem>" : nil
+        
+        # Only proceed if proper format is found
+        if match && carry == "<end:atem>"
+          card_name = match[1]
+          begin
+            card_data = Ygoprodeck::Fname.is(card_name)
+            
+            if card_data.nil? || card_data["id"].nil?
+              # Card not found
+              send_not_found_embed(event, card_name)
+            else
+              # Card found
+              send_card_embed(event, card_data)
+            end
+          rescue => e
+            # Handle any errors from the API
+            event.channel.send_message("Error searching for card")
+			puts e.message
+          end
+        end
+      end
+    end
+    
+    private
+    
+    def self.send_not_found_embed(event, card_name)
+      event.channel.send_embed do |embed|
+        embed.colour = 0xff1432
+        embed.description = "'#{card_name}' not found"
+        embed.image = Discordrb::Webhooks::EmbedImage.new(url: NOT_FOUND_IMAGE)
+      end
+    end
+    
+    def self.send_card_embed(event, card_data)
+      return if card_data.nil?
+      
+      id = card_data["id"]
+      name = card_data["name"]
+      type = card_data["type"]
+      
+      if is_monster_card?(type)
+        send_monster_embed(event, card_data)
+      else
+        send_non_monster_embed(event, card_data)
+      end
+    end
+    
+    def self.is_monster_card?(type)
+      MONSTER_TYPES.key?(type)
+    end
+    
+    def self.send_monster_embed(event, card_data)
+      id = card_data["id"]
+      name = card_data["name"]
+      type = card_data["type"]
+      attribute = card_data["attribute"]
+      level = card_data["level"]
+      race = card_data["race"]
+      desc = card_data["desc"]
+      atk = card_data["atk"]
+      def_val = card_data["def"]
+      pict = Ygoprodeck::Image.is(id)
+      
+      type_info = MONSTER_TYPES[type]
+      about = "[ #{race} #{type_info[:suffix]} ]"
+      
+      event.channel.send_embed do |embed|
+        embed.colour = type_info[:color]
+        embed.add_field name: "**#{name}**", value: "**Type:** #{type}\n**Attribute:** #{attribute}\n**Level:** #{level}"
+        embed.add_field name: about, value: desc
+        embed.add_field name: "ATK", value: atk.to_s, inline: true
+        embed.add_field name: "DEF", value: def_val.to_s, inline: true
+        embed.image = Discordrb::Webhooks::EmbedImage.new(url: pict)
+      end
+    end
+    
+    def self.send_non_monster_embed(event, card_data)
+      id = card_data["id"]
+      name = card_data["name"]
+      type = card_data["type"]
+      race = card_data["race"]
+      desc = card_data["desc"]
+      pict = Ygoprodeck::Image.is(id)
+      
+      event.channel.send_embed do |embed|
+        embed.colour = NON_MONSTER_TYPES[type][:color]
+        embed.add_field name: "**#{name}**", value: "**Type:** #{type}\n**Property:** #{race}"
+        embed.add_field name: "Effect", value: desc
+        embed.image = Discordrb::Webhooks::EmbedImage.new(url: pict)
+      end
+    end
+  end
 end
