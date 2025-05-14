@@ -11,7 +11,7 @@ botBaileys.on('auth_failure', async (error) => console.log("ERROR BOT: ", error)
 botBaileys.on('qr', (qr) => console.log("NEW QR CODE: ", qr));
 botBaileys.on('ready', async () => console.log('READY BOT'))
 const formatPattern = /:: *(.*?) *::/;
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
+const GEMINI_API_KEY = process.env.gemini_api_key!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 
@@ -104,7 +104,7 @@ botBaileys.on('message', async (message) => {
         }
     } catch (error) {
         console.error('Gemini AI Error:', error);
-        await botBaileys.sendText(message.from, 'Card Not Found.\n\n[Help AI] Internal error when contacting Gemini.');
+        await botBaileys.sendText(message.from, 'Card Not Found.\n\n[AI Help] Internal error when contacting Gemini.');
     }
     }
 

@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 require 'telegram/bot'
 require 'ygoprodeck'
-require 'ostruct'
-require 'yaml'
+require 'dotenv'
 
 # Core
 require './app/bot/telegram/atem'
 
-puts 'Bot Running..'
-CONFIG = OpenStruct.new YAML.load_file 'config/config.yaml'
-TOKEN = CONFIG.token_telegram
+Dotenv.load(File.expand_path('../config/.env', __dir__))
+
+puts 'Bot Ready'
+TOKEN = ENV['token_telegram']
 Atem.starts

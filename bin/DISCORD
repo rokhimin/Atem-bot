@@ -1,61 +1,42 @@
 #!/usr/bin/env ruby
 require 'discordrb'
 require 'ygoprodeck'
-require 'ostruct'
-require 'yaml'
+require 'dotenv'
 
 module Bot
+  Dotenv.load(File.expand_path('../config/.env', __dir__))
+  CONFIG = ENV['mode_discord']
 
-  CONFIG = OpenStruct.new YAML.load_file 'config/config.yaml'
+  def self.create_bot(prefix)
+    Discordrb::Commands::CommandBot.new(
+      client_id: ENV['client_id_discord'],
+      token: ENV['token_discord'],
+      prefix: prefix,
+      compress_mode: :large
+    )
+  end
 
-	case CONFIG.mode_discord
-		when 'development'
+  def self.load_modules(bot, klass, path)
+    new_module = Module.new
+    const_set(klass.to_sym, new_module)
+    Dir["app/bot/discord/#{path}/*.rb"].each { |file| load file }
+    new_module.constants.each do |mod|
+      bot.include! new_module.const_get(mod)
+    end
+  end
 
-		  BOT_DEVELOPMENT = Discordrb::Commands::CommandBot.new(client_id: CONFIG.client_id_discord,
-													token: CONFIG.token_discord,
-													prefix: CONFIG.prefix_discord_development,
-													compress_mode: :large)
+  case CONFIG
+  when 'development', 'production'
+    prefix = ENV["prefix_discord_#{CONFIG}"]
+    bot = create_bot(prefix)
 
-		  def self.load_modules(klass, path)
-			new_module = Module.new
-			const_set(klass.to_sym, new_module)
-			Dir["app/bot/discord/#{path}/*.rb"].each { |file| load file }
-			new_module.constants.each do |mod|
-			  BOT_DEVELOPMENT.include! new_module.const_get(mod)
-			end
-		  end
+    load_modules(bot, :DiscordEvents, 'events')
+    load_modules(bot, :DiscordCommands, 'commands')
 
-		  load_modules(:DiscordEvents, 'events')
-		  load_modules(:DiscordCommands, 'commands')
-			puts "[MODE : Development]"
-		  BOT_DEVELOPMENT.gateway.check_heartbeat_acks = false
-		  BOT_DEVELOPMENT.run
-
-		when 'production'
-
-		  BOT_PRODUCTION = Discordrb::Commands::CommandBot.new(client_id: CONFIG.client_id_discord,
-													token: CONFIG.token_discord,
-													prefix: CONFIG.prefix_discord_production,
-													compress_mode: :large)
-
-		  def self.load_modules(klass, path)
-			new_module = Module.new
-			const_set(klass.to_sym, new_module)
-			Dir["app/bot/discord/#{path}/*.rb"].each { |file| load file }
-			new_module.constants.each do |mod|
-			  BOT_PRODUCTION.include! new_module.const_get(mod)
-			end
-		  end
-
-		  load_modules(:DiscordEvents, 'events')
-		  load_modules(:DiscordCommands, 'commands')
-			puts "[MODE : Production]"
-		  BOT_PRODUCTION.gateway.check_heartbeat_acks = false
-		  BOT_PRODUCTION.run
-
-		else
-			puts 'SET mode_discord in /config/config.yaml'
-		end
+    puts "[MODE : #{CONFIG.capitalize}]"
+    bot.gateway.check_heartbeat_acks = false
+    bot.run
+  else
+    puts 'SET mode_discord in /config/.env'
+  end
 end
-
-

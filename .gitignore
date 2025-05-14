@@ -1,7 +1,5 @@
-/config/config.yaml
 /Gemfile.lock
 /glitch.json
-/.theia
 node_modules
 *_sessions
 baileys.log

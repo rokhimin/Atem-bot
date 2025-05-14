@@ -65,13 +65,23 @@ module Bot::DiscordCommands
               send_card_embed(event, card_data)
             end
           rescue => e
-
-             with_message = <<~CONTEXT
-    cari kartu yugioh #{card_name}, jika tidak ada tolong perbaiki nama nya agar mendekati nama kartu yugioh yang ada di database
+  			    puts "[ERROR_API : #{Time.now}]#{e.message}"
+            send_not_found_embed(event, card_name)
+          end
+        end
+      end
+    end
+    
+    private
+    
+    def self.send_not_found_embed(event, card_name)
+      
+    with_message = <<~CONTEXT
+    cari kartu yugioh bernama #{card_name}, jika tidak ada tolong perbaiki nama nya agar mendekati nama kartu yugioh yang ada di database!
     CONTEXT
 
-    # API endpoint for Gemini 
-    api_key = Bot::CONFIG.api_gemini
+    # API endpoint from Gemini 
+    api_key = ENV['gemini_api_key']
     uri = URI.parse("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=#{api_key}")
     
     # Request data
@@ -105,23 +115,12 @@ module Bot::DiscordCommands
         match_answer = bot_response.match(/^(.+?\n\n){1,4}/m)
       end
 
-      # Handle any errors from the API
-      event.channel.send_message("Error searching for card\n\n[Help AI]\n#{match_answer}")
-
     end
-			puts "[ERROR_API : #{Time.now}]#{e.message}"
-          end
-        end
-      end
-    end
-    
-    private
-    
-    def self.send_not_found_embed(event, card_name)
       event.channel.send_embed do |embed|
         embed.colour = 0xff1432
-        embed.description = "'#{card_name}' not found"
+        embed.description = "**'#{card_name}' not found**"
         embed.image = Discordrb::Webhooks::EmbedImage.new(url: NOT_FOUND_IMAGE)
+        embed.add_field name: "[AI Help]", value: match_answer
       end
     end
     
