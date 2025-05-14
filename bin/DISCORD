@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 require 'discordrb'
 require 'ygoprodeck'
-require 'nokogiri'
 require 'ostruct'
 require 'yaml'
 

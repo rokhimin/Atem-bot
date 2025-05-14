@@ -16,7 +16,7 @@ namespace :run do
     sh 'ruby bin/TELEGRAM'
   end
   task :wa do
-    sh 'npm run app'
+    sh 'ruby bin/WHATSAPP'
   end
   
 end
