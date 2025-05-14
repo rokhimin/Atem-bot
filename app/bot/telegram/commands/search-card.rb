@@ -76,7 +76,8 @@ class Search
   def self.message(from)
     atem = Ygoprodeck::Fname.is(from)
     
-    return "*#{from}* not found" if atem["id"].nil?
+    # Check if atem is nil before trying to access its elements
+    return "*#{from}* not found" if atem.nil? || atem["id"].nil?
     
     id = atem["id"]
     name = atem["name"]
@@ -87,6 +88,9 @@ class Search
       format_monster_card(atem, type)
     elsif NON_MONSTER_TYPES.include?(type)
       format_non_monster_card(atem)
+    else
+      # Handle unknown card types
+      "*#{name}* has unrecognized type: #{type}"
     end
   end
   

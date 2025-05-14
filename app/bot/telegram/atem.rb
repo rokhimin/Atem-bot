@@ -20,6 +20,9 @@ class Atem
   def self.starts
     Telegram::Bot::Client.run(TOKEN) do |bot|
       bot.listen do |message|
+        # Skip non-Message objects
+        next unless message.is_a?(Telegram::Bot::Types::Message)
+        
         text = message.text.to_s.strip
         
         handle_message(bot, message, text)
