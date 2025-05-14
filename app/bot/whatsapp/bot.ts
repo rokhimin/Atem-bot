@@ -164,9 +164,9 @@ botBaileys.on('message', async (message) => {
             const botResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'Maaf, saya tidak bisa memproses permintaan Anda.';
             const matchAnswer = botResponse.match(/^(.+?\n\n?){1,4}/m)?.[0] || botResponse;
 
-            await botBaileys.sendText(message.from, `*Card Not Found*\n\n[Help AI]\n${matchAnswer}`);
+            await botBaileys.sendText(message.from, `*Card Not Found*\n\n[AI Help]\n${matchAnswer}`);
         } else {
-            await botBaileys.sendText(message.from, 'Card Not Found.\n\n[Help AI] Gemini API error.');
+            await botBaileys.sendText(message.from, 'Card Not Found.\n\n[AI Help] Gemini API error.');
         }
         } catch (error) {
         console.error('Gemini AI Error:', error);
