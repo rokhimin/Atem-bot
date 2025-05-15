@@ -1,7 +1,9 @@
 module Bot::DiscordCommands
   module Searchcard 
     extend Discordrb::EventContainer
-    
+    require 'amatch'
+    include Amatch
+
     MONSTER_TYPES = {
       "Normal Monster" => { color: 0xdac14c, suffix: "" },
       "Normal Tuner Monster" => { color: 0xdac14c, suffix: "/ Tuner" },
@@ -40,7 +42,7 @@ module Bot::DiscordCommands
 
     message(description: 'searchcard') do |event|
       content = event.message.content
-      
+
       # Check if content contains the pattern ::text::
       if content.include?('::')
         # Extract content between :: markers similar to the original code
@@ -55,8 +57,41 @@ module Bot::DiscordCommands
         if match && carry == "<end:atem>"
           card_name = match[1]
           begin
-            card_data = Ygoprodeck::Fname.is(card_name)
-            
+            json_path = File.expand_path('../../../data/ygo.json', __dir__)
+            names = JSON.parse(File.read(json_path))
+
+            def self.normalize(text)
+              text.downcase.gsub(/[^a-z0-9\s\-]/, '').strip
+            end
+
+            normalized_input = normalize(card_name)
+            input_words = normalized_input.split
+
+            # 1. Substring match
+            substring_matches = names.select { |name| normalize(name).include?(normalized_input) }
+
+            if !substring_matches.empty?
+              best_match = substring_matches.min_by { |name| normalize(name).length }
+
+            # 2. Word match
+            else
+              word_matches = names.select do |name|
+                name_words = normalize(name).split
+                input_words.all? { |word| name_words.any? { |nw| nw.include?(word) } }
+              end
+
+              if !word_matches.empty?
+                best_match = word_matches.min_by { |name| normalize(name).length }
+
+              # 3. Fuzzy match (fallback)
+              else
+                matcher = Levenshtein.new(normalized_input)
+                best_match = names.min_by { |name| matcher.match(normalize(name)) }
+              end
+            end
+
+            card_data = Ygoprodeck::Fname.is(best_match)
+
             if card_data.nil? || card_data["id"].nil?
               # Card not found
               send_not_found_embed(event, card_name)
