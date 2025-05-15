@@ -38,9 +38,11 @@
   },
   "homepage": "https://github.com/rokhimin/wa-bot-atem#readme",
   "devDependencies": {
+    "@prettier/plugin-ruby": "^3.2.2",
     "@types/fluent-ffmpeg": "^2.1.26",
     "@types/mime-types": "^2.1.4",
     "@types/node": "^22.7.8",
+    "prettier": "^3.5.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   }

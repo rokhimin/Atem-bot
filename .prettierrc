@@ -1,0 +1,10 @@
+{
+  "plugins": ["@prettier/plugin-ruby"],
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "none",
+  "rubySingleQuote": true,
+  "rubyHashLabel": true,
+  "rubyModifier": true,
+  "pluginSearchDirs": ["./node_modules"]
+}
