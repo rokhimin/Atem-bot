@@ -1,7 +1,9 @@
 import { BaileysClass } from '../../../lib/baileys.js';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
+import Fuse from 'fuse.js';
 import path from 'path';
+import allCardNames from '../../data/ygo.json'; 
 
 dotenv.config({ path: path.resolve(__dirname, '../../../config/.env') });
 
@@ -14,37 +16,69 @@ const formatPattern = /:: *(.*?) *::/;
 const GEMINI_API_KEY = process.env.gemini_api_key!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
+const normalizedCards = allCardNames.map(name => normalize(name));
 
-async function fetchCardData(cardName: string): Promise<{ info: string, imageUrl?: string }> {
-    try {
-        const encodedName = encodeURIComponent(cardName);
-        const response = await fetch(`https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=${encodedName}`);
-        const data: any = await response.json();
+const fuse = new Fuse(normalizedCards, {
+  includeScore: true,
+  threshold: 0.4, 
+  distance: 100,
+});
 
-        if (data.error) {
-            return { info: `Card not found: ${cardName}` };
-        }
+function normalize(text: string): string {
+  return text.toLowerCase()
+    .replace(/[-.,'"]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
-        const card = data.data[0];
-        let cardInfo = `*${card.name}*\n`;
-        cardInfo += `*_OCG:_* ${card.banlist_info?.ban_ocg ?? "Unlimited"}\n`;
-        cardInfo += `*_TCG:_* ${card.banlist_info?.ban_tcg ?? "Unlimited"}\n`;
-        cardInfo += `*_Type:_* ${card.type}\n`;
-        if (card.attribute) cardInfo += `*_Attribute:_* ${card.attribute}\n`;
-        if (card.archetype) cardInfo += `*_Archetype:_* ${card.archetype}\n`;
-        if (card.level) cardInfo += `*_Level/Rank:_* ${card.level}\n`;
-        if (card.race) cardInfo += `*_Race:_* ${card.race}\n`;
-        if (card.atk !== undefined) cardInfo += `*_ATK:_* ${card.atk} | `;
-        if (card.def !== undefined) cardInfo += `*_DEF:_* ${card.def}\n`;
-        if (card.linkval !== undefined) cardInfo += `*_Linkval:_* ${card.linkval} [${card.linkmarkers}]\n`;
-        cardInfo += `\n*_Card Text_*\n${card.desc}\n`;
+export async function fetchCardData(cardName: string): Promise<{ info: string, imageUrl?: string }> {
+  try {
+    const normalizedQuery = normalize(cardName);
 
-        const imageUrl = card.card_images?.[0]?.image_url_cropped;
-        return { info: cardInfo, imageUrl };
-    } catch (error) {
-        console.error('Error fetching card data:', error);
-        return { info: 'Error fetching card data. Please try again later.' };
+    const substringIndex = normalizedCards.findIndex(n => n.includes(normalizedQuery));
+
+    let bestMatch: string;
+
+    if (substringIndex !== -1) {
+      bestMatch = allCardNames[substringIndex];
+    } else {
+      const results = fuse.search(normalizedQuery);
+      if (results.length > 0) {
+        bestMatch = allCardNames[results[0].refIndex];
+      } else {
+        bestMatch = cardName;
+      }
     }
+
+    const encodedName = encodeURIComponent(bestMatch);
+    const response = await fetch(`https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=${encodedName}`);
+    const data: any = await response.json();
+
+    if (data.error) {
+      return { info: `Card not found: ${cardName}` };
+    }
+
+    const card = data.data[0];
+    let cardInfo = `*${card.name}*\n`;
+    cardInfo += `*_OCG:_* ${card.banlist_info?.ban_ocg ?? "Unlimited"}\n`;
+    cardInfo += `*_TCG:_* ${card.banlist_info?.ban_tcg ?? "Unlimited"}\n`;
+    cardInfo += `*_Type:_* ${card.type}\n`;
+    if (card.attribute) cardInfo += `*_Attribute:_* ${card.attribute}\n`;
+    if (card.archetype) cardInfo += `*_Archetype:_* ${card.archetype}\n`;
+    if (card.level) cardInfo += `*_Level/Rank:_* ${card.level}\n`;
+    if (card.race) cardInfo += `*_Race:_* ${card.race}\n`;
+    if (card.atk !== undefined) cardInfo += `*_ATK:_* ${card.atk} | `;
+    if (card.def !== undefined) cardInfo += `*_DEF:_* ${card.def}\n`;
+    if (card.linkval !== undefined) cardInfo += `*_Linkval:_* ${card.linkval} [${card.linkmarkers}]\n`;
+    cardInfo += `\n*_Card Text_*\n${card.desc}\n`;
+
+    const imageUrl = card.card_images?.[0]?.image_url_cropped;
+    return { info: cardInfo, imageUrl };
+
+  } catch (error) {
+    console.error('Error fetching card data:', error);
+    return { info: 'Error fetching card data. Please try again later.' };
+  }
 }
 
 async function listCards(searchTerm: string): Promise<string> {
@@ -175,7 +209,6 @@ botBaileys.on('message', async (message) => {
     }
     }
 
-
     // Search yugioh card in group
     if (isGroup && match) {
         const extractedText = match[1];
@@ -201,9 +234,9 @@ botBaileys.on('message', async (message) => {
         
         const matchAnswer = botResponse.match(/^(.+?\n\n?){1,4}/m)?.[0] || botResponse;
 
-        await botBaileys.sendText(message.from, `*Card Not Found*\n\n[Help AI]\n${matchAnswer}`);
+        await botBaileys.sendText(message.from, `*Card Not Found*\n\n[AI Help]\n${matchAnswer}`);
         } else {
-        await botBaileys.sendText(message.from, 'Card Not Found.\n\n[Help AI] Gemini API error.');
+        await botBaileys.sendText(message.from, 'Card Not Found.\n\n[AI Help] Gemini API error.');
         }
     } catch (error) {
         console.error('Gemini AI Error:', error);
