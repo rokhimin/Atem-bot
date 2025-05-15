@@ -261,6 +261,9 @@ module Bot::DiscordCommands
       def_val = card_data['def']
       pict = Ygoprodeck::Image.is(id)
 
+      ban_ocg = card_data.dig('banlist_info', 'ban_ocg') || 'Unlimited'
+      ban_tcg = card_data.dig('banlist_info', 'ban_tcg') || 'Unlimited'
+
       type_info = MONSTER_TYPES[type]
       about = "[ #{race} #{type_info[:suffix]} ]"
 
@@ -268,7 +271,7 @@ module Bot::DiscordCommands
         embed.colour = type_info[:color]
         embed.add_field name: "**#{name}**",
                         value:
-                          "**Type:** #{type}\n**Attribute:** #{attribute}\n**Level:** #{level}"
+                          "**Limit :** **OCG:** #{ban_ocg} | **TCG:** #{ban_tcg}\n**Type:** #{type}\n**Attribute:** #{attribute}\n**Level:** #{level}"
         embed.add_field name: about, value: desc
         embed.add_field name: 'ATK', value: atk.to_s, inline: true
         embed.add_field name: 'DEF', value: def_val.to_s, inline: true
