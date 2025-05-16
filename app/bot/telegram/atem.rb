@@ -41,10 +41,12 @@ class Atem
     when COMMANDS[:info].include?(text)
       send_info_message(bot, chat_id)
     when COMMANDS[:random].include?(text)
+      hit_random = Random.random_card
+
       bot.api.send_photo(
         chat_id: chat_id,
-        photo: Random.random_card[:image],
-        caption: Random.random_card[:message],
+        photo: hit_random[:image],
+        caption: hit_random[:message],
         parse_mode: 'Markdown'
       )
     when COMMANDS[:search].include?(text)

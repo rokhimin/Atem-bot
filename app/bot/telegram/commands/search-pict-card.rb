@@ -1,9 +1,10 @@
 class Pict
   def self.link(from)
-    atem = Ygoprodeck::Fname.is(from)
+    matching = Ygoprodeck::Match.is(from)
+    card = Ygoprodeck::Fname.is(matching)
 
-    return 'https://i.imgur.com/lPSo3Tt.jpg' if atem.nil? || atem['id'].nil?
+    return 'https://i.imgur.com/lPSo3Tt.jpg' if card.nil? || card['id'].nil?
 
-    Ygoprodeck::Image_small.is(atem['id'])
+    Ygoprodeck::Image_small.is(card['id'])
   end
 end
