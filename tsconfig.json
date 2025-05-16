@@ -15,6 +15,6 @@
         "forceConsistentCasingInFileNames": true,
         "declaration": true
     },
-    "include": ["src/**/*.ts"],
+    "include": ["app/bot/whatsapp/src/**/*.ts"],
     "exclude": ["node_modules"]
 }

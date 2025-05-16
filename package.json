@@ -1,9 +1,9 @@
 {
   "name": "@rokhimin/atem",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "description": "A bot Whatsapps for search yu-gi-oh cards with baileys library or bot-whatsapp",
-  "main": "app/bot/whatsapp/lib/baileys.js",
-  "types": "app/bot/whatsapp/lib/baileys.d.ts",
+  "main": "lib/baileys.js",
+  "types": "lib/baileys.d.ts",
   "scripts": {
     "build": "tsc",
     "app": "tsc && node -r ts-node/register app/bot/whatsapp/bot.ts"
@@ -19,7 +19,7 @@
     "yugioh"
   ],
   "files": [
-    "./app/bot/whatsapp/lib/**/*"
+    "./lib/**/*"
   ],
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
@@ -34,9 +34,9 @@
   "author": "Rokhimin Wahid",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rokhimin/atem/issues"
+    "url": "https://github.com/rokhimin/wa-bot-atem/issues"
   },
-  "homepage": "https://github.com/rokhimin/atem-bot#readme",
+  "homepage": "https://github.com/rokhimin/wa-bot-atem#readme",
   "devDependencies": {
     "@prettier/plugin-ruby": "^3.2.2",
     "@types/fluent-ffmpeg": "^2.1.26",

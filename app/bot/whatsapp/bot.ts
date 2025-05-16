@@ -1,4 +1,4 @@
-import { BaileysClass } from 'lib/baileys.js';
+import { BaileysClass } from '../../../lib/baileys.js';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 import Fuse from 'fuse.js';
