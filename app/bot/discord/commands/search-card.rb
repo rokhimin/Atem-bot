@@ -1,8 +1,6 @@
 module Bot::DiscordCommands
   module Searchcard
     extend Discordrb::EventContainer
-    require 'amatch'
-    include Amatch
 
     MONSTER_TYPES = {
       'Normal Monster' => {
@@ -134,42 +132,8 @@ module Bot::DiscordCommands
         if match && carry == '<end:atem>'
           card_name = match[1]
           begin
-            json_path = File.expand_path('../../../data/ygo.json', __dir__)
-            names = JSON.parse(File.read(json_path))
-
-            def self.normalize(text)
-              text.downcase.gsub(/[^a-z0-9\s\-]/, '').strip
-            end
-
-            normalized_input = normalize(card_name)
-            input_words = normalized_input.split
-
-            substring_matches =
-              names.select { |name| normalize(name).include?(normalized_input) }
-
-            if !substring_matches.empty?
-              best_match =
-                substring_matches.min_by { |name| normalize(name).length }
-            else
-              word_matches =
-                names.select do |name|
-                  name_words = normalize(name).split
-                  input_words.all? do |word|
-                    name_words.any? { |nw| nw.include?(word) }
-                  end
-                end
-
-              if !word_matches.empty?
-                best_match =
-                  word_matches.min_by { |name| normalize(name).length }
-              else
-                matcher = Levenshtein.new(normalized_input)
-                best_match =
-                  names.min_by { |name| matcher.match(normalize(name)) }
-              end
-            end
-
-            card_data = Ygoprodeck::Fname.is(best_match)
+            card_match = Ygoprodeck::Match.is(card_name)
+            card_data = Ygoprodeck::Fname.is(card_match)
 
             if card_data.nil? || card_data['id'].nil?
               send_not_found_embed(event, card_name)
@@ -187,47 +151,10 @@ module Bot::DiscordCommands
     private
 
     def self.send_not_found_embed(event, card_name)
-      with_message = <<~CONTEXT
-    cari kartu yugioh bernama #{card_name}, jika tidak ada tolong perbaiki nama nya agar mendekati nama kartu yugioh yang ada di database!
-    CONTEXT
-
-      api_key = ENV['gemini_api_key']
-      uri =
-        URI.parse(
-          "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=#{api_key}"
-        )
-
-      request_data = { contents: [{ parts: [{ text: with_message }] }] }
-
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      request =
-        Net::HTTP::Post.new(
-          uri.request_uri,
-          { 'Content-Type' => 'application/json' }
-        )
-      request.body = request_data.to_json
-
-      response = http.request(request)
-
-      if response.code == '200'
-        result = JSON.parse(response.body)
-
-        bot_response = "I'm sorry, I couldn't process your request."
-
-        if result && result['candidates'] && result['candidates'][0] &&
-             result['candidates'][0]['content'] &&
-             result['candidates'][0]['content']['parts'] &&
-             result['candidates'][0]['content']['parts'][0]
-          bot_response = result['candidates'][0]['content']['parts'][0]['text']
-          match_answer = bot_response.match(/^(.+?\n\n){1,4}/m)
-        end
-      end
       event.channel.send_embed do |embed|
         embed.colour = 0xff1432
         embed.description = "**'#{card_name}' not found**"
         embed.image = Discordrb::Webhooks::EmbedImage.new(url: NOT_FOUND_IMAGE)
-        embed.add_field name: '[AI Help]', value: match_answer
       end
     end
 

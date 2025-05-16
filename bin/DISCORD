@@ -20,9 +20,7 @@ module Bot
     new_module = Module.new
     const_set(klass.to_sym, new_module)
     Dir["app/bot/discord/#{path}/*.rb"].each { |file| load file }
-    new_module.constants.each do |mod|
-      bot.include! new_module.const_get(mod)
-    end
+    new_module.constants.each { |mod| bot.include! new_module.const_get(mod) }
   end
 
   case CONFIG
