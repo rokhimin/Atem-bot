@@ -10,9 +10,7 @@
 # Atem Bot
 discord, Telegram, and Whatsapp bot for search yugioh card
 
-<img align="center" width="350" src="https://i.imgur.com/SS9VM9L.gif" />
-
-## Library
+### Library
 - Discord => Discordrb
 - Telegram => Telegram-Bot-Ruby
 - Whatsapp => Baileys.js
@@ -23,12 +21,12 @@ discord, Telegram, and Whatsapp bot for search yugioh card
 
 > Telegram : https://t.me/Atem_YugiohBot
 
-> Whatsapp : ???
+> Whatsapp : https://atem.whdzera.my.id
 
-### Features
-- quick search yugioh card 
-- list search yugioh card
-- Help AI if card not found
+### View
+![](https://i.imgur.com/QcedrlV.png)
+
+<img align="center" width="350" src="https://i.imgur.com/SS9VM9L.gif" />
 
 ### Prerequisite
 - Ruby 2.7.0 up
