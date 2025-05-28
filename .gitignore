@@ -8,4 +8,4 @@ db.json
 lib/
 *.qr.png
 /config/.env
-
+package-lock.json
