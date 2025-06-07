@@ -11,9 +11,9 @@
 discord, Telegram, and Whatsapp bot for search yugioh card
 
 ### Library
-- Discord => Discordrb
-- Telegram => Telegram-Bot-Ruby
-- Whatsapp => Baileys.js
+- Discord => Discordrb (Ruby)
+- Telegram => Telegram-Bot-Ruby (ruby)
+- Whatsapp => Baileys.js (Typescript)
 
 ### Play
 
@@ -21,7 +21,7 @@ discord, Telegram, and Whatsapp bot for search yugioh card
 
 > Telegram : https://t.me/Atem_YugiohBot
 
-> Whatsapp : https://atem.whdzera.my.id
+> Whatsapp : 
 
 ### View
 ![](https://i.imgur.com/QcedrlV.png)
@@ -45,10 +45,10 @@ npm i
 ### Usage
 |   Commands    |    Discord    |    Telegram    |    Whatsapp    |
 | ------------- | ------------- | ------------- | ------------- |
-| information  | ```atem:info``` |  | :atem |
-| ping or status | ```atem:ping``` |  | :status |
-| random card | ```atem:random``` | ```/random``` |  |
-| list search card  |  ```atem:src card_name```    | ```/searchlist``` |  |
+| information  | ```::info``` |  | :atem |
+| ping or status | ```::ping``` |  | :status |
+| random card | ```::random``` | ```/random``` |  |
+| list search card  |  ```::src card_name```    | ```/searchlist``` |  |
 | quick search card | ```::card_name::``` | ```::card_name::``` | ```::card_name::``` |
 
 ### Developer Tool
