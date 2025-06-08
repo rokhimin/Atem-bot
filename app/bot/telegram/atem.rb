@@ -5,27 +5,30 @@ require_relative 'commands/search-list'
 require_relative 'commands/search-pict-card'
 
 class Atem
-  # Constant untuk prefiks perintah
   COMMAND_PREFIX = '/'.freeze
 
-  # Command patterns
   COMMANDS = {
     start: %w[/start /welcome /help],
     info: ['/info'],
     random: ['/random'],
-    search: ['/search'],
-    searchlist: ['/searchlist']
+    search: ['/search']
+    #searchlist: ['/searchlist']
   }.freeze
 
-  def self.starts
-    Telegram::Bot::Client.run(TOKEN) do |bot|
+  def self.start
+    logger = Logger.new($stdout)
+    logger.level = Logger::INFO
+
+    Telegram::Bot::Client.run(TOKEN, allowed_updates: ['message']) do |bot|
       bot.listen do |message|
-        # Skip non-Message objects
         next unless message.is_a?(Telegram::Bot::Types::Message)
+        next unless message.text
 
         text = message.text.to_s.strip
 
         handle_message(bot, message, text)
+
+        logger.info "Received from @#{message.from.username}: #{message.text}"
       end
     end
   end
@@ -51,16 +54,16 @@ class Atem
       )
     when COMMANDS[:search].include?(text)
       send_message(bot, chat_id, '/search <name card>')
-    when COMMANDS[:searchlist].include?(text)
-      send_message(bot, chat_id, '/searchlist <name card>')
+      #when COMMANDS[:searchlist].include?(text)
+      #send_message(bot, chat_id, '/searchlist <name card>')
     when text.start_with?("#{COMMANDS[:search][0]} ")
       handle_search(bot, chat_id, text.sub("#{COMMANDS[:search][0]} ", ''))
-    when text.start_with?("#{COMMANDS[:searchlist][0]} ")
-      handle_searchlist(
-        bot,
-        chat_id,
-        text.sub("#{COMMANDS[:searchlist][0]} ", '')
-      )
+      # when text.start_with?("#{COMMANDS[:searchlist][0]} ")
+      #   handle_searchlist(
+      #     bot,
+      #     chat_id,
+      #     text.sub("#{COMMANDS[:searchlist][0]} ", '')
+      #   )
     when text.include?('::')
       handle_shorthand_search(bot, chat_id, text)
     end

@@ -2,12 +2,11 @@
 require 'telegram/bot'
 require 'ygoprodeck'
 require 'dotenv'
-
-# Core
+require 'logger'
 require './app/bot/telegram/atem'
 
 Dotenv.load(File.expand_path('../config/.env', __dir__))
 
 puts 'Running Atem Bot - Telegram'
 TOKEN = ENV['token_telegram']
-Atem.starts
+Atem.start
