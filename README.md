@@ -22,7 +22,8 @@ discord, Telegram, and Whatsapp bot for search yugioh card, written in ruby and 
 | information  | ```::info``` | ```/info``` | ```:atem``` |
 | ping or status | ```::ping``` |  | ```:status``` |
 | random card | ```::random``` | ```/random``` |  |
-| list search card  |  ```::src card_name```    | ```/searchlist``` |  |
+| list search card  |  ```::src card_name```    | ```/searchlist``` | ```:ls```|
+| search card |  | ```/search``` | ```:src``` |
 | quick search card | ```::card_name::``` | ```::card_name::``` | ```::card_name::``` |
 
 ### View
