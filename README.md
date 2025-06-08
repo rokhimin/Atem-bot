@@ -38,22 +38,31 @@ bundle install && npm install
 | list search card  |  ```::src card_name```    | ```/searchlist``` |  |
 | quick search card | ```::card_name::``` | ```::card_name::``` | ```::card_name::``` |
 
-### Developer Tool
-run unit test :
+### Running and Tools
+
+Run Discord bot only
+```
+  rake run dc=yes     
+```
+
+Run WhatsApp and Telegram bots
+```
+  rake run wa=yes tele=yes  
+```
+
+Run all bots
+```
+  rake run dc=yes wa=yes tele=yes  
+```
+
+kill process bot
+```
+rake kill
+```
+
+unit test 
  ```
- rake run:rspec
- ```
-run bot discord :
- ```
- rake run:dc
- ```
-run bot telegram :
- ```
- rake run:tele
- ```
-run bot whatsapp :
- ```
- rake run:wa
+ rake test
  ```
 ## Contributing
 
