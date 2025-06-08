@@ -1,3 +1,4 @@
 #!/usr/bin/env ruby
 
-system('npm run app')
+puts 'Running Atem Bot - WhatsApp'
+system('tsc && node -r ts-node/register app/bot/whatsapp/bot.ts')

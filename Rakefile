@@ -1,7 +1,7 @@
 task default: [:welcome]
 
 task :welcome do
-  puts "rake run:rspec => Unit Test \nrake run:dc => Run bot Discord \nrake run:tele => Run bot Telegram \nrake run:wa => Run bot Whatsapp \n===============================\nfollow my Github https://github.com/rokhimin"
+  puts "Command Atem Bot\n===============================\nrake run:rspec => Unit Test \nrake run:dc => Run bot Discord \nrake run:tele => Run bot Telegram \nrake run:wa => Run bot Whatsapp \n===============================\nfollow my Github https://github.com/whdzera"
 end
 
 namespace :run do
