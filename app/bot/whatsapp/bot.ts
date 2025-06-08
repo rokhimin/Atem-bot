@@ -9,9 +9,26 @@ dotenv.config({ path: path.resolve(__dirname, '../../../config/.env') });
 
 const botBaileys = new BaileysClass({});
 
-botBaileys.on('auth_failure', async (error) => console.log("ERROR BOT: ", error));
-botBaileys.on('qr', (qr) => console.log("NEW QR CODE: ", qr));
-botBaileys.on('ready', async () => console.log('READY BOT'))
+function logWithTime(level: 'INFO' | 'ERROR' | 'WARN', ...message: any[]) {
+  const time = new Date().toISOString();
+  console.log(`[${level}] [${time}]`, ...message);
+}
+
+async function sendTextLog(to: string, message: string) {
+  logWithTime('INFO', `Sending text to ${to}:`, message.replace(/\n/g, ' | '));
+  await botBaileys.sendText(to, message);
+}
+
+async function sendMediaLog(to: string, mediaUrl: string, caption: string) {
+  logWithTime('INFO', `Sending media to ${to}: ${mediaUrl}`);
+  logWithTime('INFO', `With caption:`, caption.replace(/\n/g, ' | '));
+  await botBaileys.sendMedia(to, mediaUrl, caption);
+}
+
+botBaileys.on('auth_failure', async (error) => logWithTime('ERROR', "Auth failed:", error));
+botBaileys.on('qr', (qr) => logWithTime('INFO', "NEW QR CODE:", qr));
+botBaileys.on('ready', async () => logWithTime('INFO', 'READY BOT'));
+
 const formatPattern = /:: *(.*?) *::/;
 const GEMINI_API_KEY = process.env.gemini_api_key!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
@@ -76,7 +93,7 @@ export async function fetchCardData(cardName: string): Promise<{ info: string, i
     return { info: cardInfo, imageUrl };
 
   } catch (error) {
-    console.error('Error fetching card data:', error);
+    logWithTime('ERROR', 'Error fetching card data:', error);
     return { info: 'Error fetching card data. Please try again later.' };
   }
 }
@@ -113,7 +130,7 @@ async function listCards(searchTerm: string): Promise<string> {
         
         return message;
     } catch (error) {
-        console.error('Error listing cards:', error);
+        logWithTime('ERROR', 'Error listing cards:', error);
         return 'Error searching for cards. Please try again later.';
     }
 }
@@ -124,12 +141,12 @@ botBaileys.on('message', async (message) => {
 
     // information bot
     if (message.body.toLowerCase() === ':atem') {
-        await botBaileys.sendText(message.from, '*Atem* (version 1.1.0)\nWhatsapp Bot for search yugioh card\n\n*Developer* \n- 089612893953 (whdzera)\n\n`:help` for usage \n\n*Donation*\nhttps://saweria.co/whdzera');
+        await sendTextLog(message.from, '*Atem* (version 1.1.0)\nWhatsapp Bot for search yugioh card\n\n*Developer* \n- 089612893953 (whdzera)\n\n`:help` for usage \n\n*Donation*\nhttps://saweria.co/whdzera');
     }
 
     // helping and usage
     if (message.body.toLowerCase() === ':help') {
-        await botBaileys.sendText(message.from, '*Usage*\n- `:atem` Information about bot \n- `:status` information Latency Server\n- `:ls blue-eyes` list cards \n- `:src dark magician` search card \n- `::dark magician::` search card dynamic');
+        await sendTextLog(message.from, '*Usage*\n- `:atem` Information about bot \n- `:status` information Latency Server\n- `:ls blue-eyes` list cards \n- `:src dark magician` search card \n- `::dark magician::` search card dynamic');
     }
 
     // Status Latency API and Server
@@ -149,7 +166,7 @@ botBaileys.on('message', async (message) => {
       const serverLatency = Date.now() - start;
 
       const messageStatus = `*Status*\n- Server latency: ${serverLatency - 40}ms.\n- API latency: ${apiLatency}`;
-      await botBaileys.sendText(message.from, messageStatus);
+      await sendTextLog(message.from, messageStatus);
     }
 
     // List cards
@@ -157,14 +174,14 @@ botBaileys.on('message', async (message) => {
         const match = message.body.match(/^:ls\s+(.+)$/i);
 
         if (!match) {
-            await botBaileys.sendText(message.from, 'Format salah. Gunakan seperti ini: `:ls *kata kunci*`');
+            await sendTextLog(message.from, 'Format salah. Gunakan seperti ini: `:ls *kata kunci*`');
             return;
         }
 
         const searchTerm = match[1].trim();
         
         const result = await listCards(searchTerm);
-        await botBaileys.sendText(message.from, result);
+        await sendTextLog(message.from, result);
     }
 
     // Search card Private
@@ -172,7 +189,7 @@ botBaileys.on('message', async (message) => {
         const match = message.body.match(/^:src\s+(.+)$/i);
 
     if (!match) {
-        await botBaileys.sendText(message.from, 'Format salah. Gunakan seperti ini: `:src *nama kartu*`');
+        await sendTextLog(message.from, 'Format salah. Gunakan seperti ini: `:src *nama kartu*`');
         return;
     }
 
@@ -180,7 +197,7 @@ botBaileys.on('message', async (message) => {
 
     const result = await fetchCardData(text);
     if (result.imageUrl) {
-        await botBaileys.sendMedia(message.from, result.imageUrl, result.info);
+        await sendMediaLog(message.from, result.imageUrl, result.info);
     } else {
         const prompt = `cari kartu yugioh ${text}, jika tidak ada tolong perbaiki nama nya agar mendekati nama kartu yugioh yang ada di database`;
 
@@ -198,13 +215,13 @@ botBaileys.on('message', async (message) => {
             const botResponse = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'Maaf, saya tidak bisa memproses permintaan Anda.';
             const matchAnswer = botResponse.match(/^(.+?\n\n?){1,4}/m)?.[0] || botResponse;
 
-            await botBaileys.sendText(message.from, `*Card Not Found*\n\n[AI Help]\n${matchAnswer}`);
+            await sendTextLog(message.from, `*Card Not Found*\n\n[AI Help]\n${matchAnswer}`);
         } else {
-            await botBaileys.sendText(message.from, 'Card Not Found.\n\n[AI Help] Gemini API error.');
+            await sendTextLog(message.from, 'Card Not Found.\n\n[AI Help] Gemini API error.');
         }
         } catch (error) {
         console.error('Gemini AI Error:', error);
-        await botBaileys.sendText(message.from, 'Card Not Found.\n\n[AI Help] Internal error when contacting Gemini.');
+        await sendTextLog(message.from, 'Card Not Found.\n\n[AI Help] Internal error when contacting Gemini.');
         }
     }
     }
@@ -214,7 +231,7 @@ botBaileys.on('message', async (message) => {
         const extractedText = match[1];
         const result = await fetchCardData(extractedText);
         if (result.imageUrl) {
-            await botBaileys.sendMedia(message.from, result.imageUrl, result.info);
+            await sendMediaLog(message.from, result.imageUrl, result.info);
         }
         else {
     const prompt = `cari kartu yugioh ${extractedText}, jika tidak ada tolong perbaiki nama nya agar mendekati nama kartu yugioh yang ada di database`;
@@ -234,13 +251,13 @@ botBaileys.on('message', async (message) => {
         
         const matchAnswer = botResponse.match(/^(.+?\n\n?){1,4}/m)?.[0] || botResponse;
 
-        await botBaileys.sendText(message.from, `*Card Not Found*\n\n[AI Help]\n${matchAnswer}`);
+        await sendTextLog(message.from, `*Card Not Found*\n\n[AI Help]\n${matchAnswer}`);
         } else {
-        await botBaileys.sendText(message.from, 'Card Not Found.\n\n[AI Help] Gemini API error.');
+        await sendTextLog(message.from, 'Card Not Found.\n\n[AI Help] Gemini API error.');
         }
     } catch (error) {
         console.error('Gemini AI Error:', error);
-        await botBaileys.sendText(message.from, 'Card Not Found.\n\n[AI Help] Internal error when contacting Gemini.');
+        await sendTextLog(message.from, 'Card Not Found.\n\n[AI Help] Internal error when contacting Gemini.');
     }
     }
 

@@ -1,20 +1,41 @@
-task default: [:welcome]
-
-task :welcome do
-  puts "List Command Atem Bot\n===============================\nrake run:test => Unit Test \nrake run:dc => Run bot Discord \nrake run:tele => Run bot Telegram \nrake run:wa => Run bot Whatsapp \n===============================\nfollow my Github https://github.com/whdzera"
+task :test do
+  sh 'rspec spec/index_spec.rb'
 end
 
-namespace :run do
-  task :test do
-    sh 'rspec spec/index_spec.rb'
+task :run do
+  selected = []
+
+  if ENV['dc'] == 'yes'
+    puts 'Running Discord bot'
+    Process.spawn('ruby bin/DISCORD')
+    selected << 'dc'
   end
-  task :dc do
-    sh 'ruby bin/DISCORD'
+
+  if ENV['tele'] == 'yes'
+    puts 'Running Telegram bot'
+    Process.spawn('ruby bin/TELEGRAM')
+    selected << 'tele'
   end
-  task :tele do
-    sh 'ruby bin/TELEGRAM'
+
+  if ENV['wa'] == 'yes'
+    puts 'Running WhatsApp bot'
+    Process.spawn('ruby bin/WHATSAPP')
+    selected << 'wa'
   end
-  task :wa do
-    sh 'ruby bin/WHATSAPP'
+
+  if selected.empty?
+    puts "\n📌 No bots selected to run.\n\n"
+    puts 'Usage examples:'
+    puts '  rake run dc=yes           # Run only Discord bot'
+    puts '  rake run wa=yes tele=yes  # Run WhatsApp and Telegram bots'
+    puts "  rake run dc=yes wa=yes tele=yes  # Run all bots\n\n"
+    puts 'Available options:'
+    puts '  dc=yes     → Run Discord bot'
+    puts '  wa=yes     → Run WhatsApp bot'
+    puts '  tele=yes   → Run Telegram bot'
+  else
+    puts "\n✅ Started: #{selected.join(', ')} bot(s)."
   end
 end
+
+task default: :run
