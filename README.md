@@ -42,17 +42,17 @@ bundle install && npm install
 
 Run Discord bot only
 ```
-  rake run dc=yes     
+rake run dc=yes     
 ```
 
 Run WhatsApp and Telegram bots
 ```
-  rake run wa=yes tele=yes  
+rake run wa=yes tele=yes  
 ```
 
 Run all bots
 ```
-  rake run dc=yes wa=yes tele=yes  
+rake run dc=yes wa=yes tele=yes  
 ```
 
 kill process bot
