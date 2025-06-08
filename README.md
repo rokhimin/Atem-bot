@@ -14,7 +14,19 @@ discord, Telegram, and Whatsapp bot for search yugioh card, written in ruby and 
 
 > Whatsapp : 
 
+
+### Usage
+
+|   Commands    |    Discord    |    Telegram    |    Whatsapp    |
+| ------------- | ------------- | ------------- | ------------- |
+| information  | ```::info``` | ```/info``` | ```:atem``` |
+| ping or status | ```::ping``` |  | ```:status``` |
+| random card | ```::random``` | ```/random``` |  |
+| list search card  |  ```::src card_name```    | ```/searchlist``` |  |
+| quick search card | ```::card_name::``` | ```::card_name::``` | ```::card_name::``` |
+
 ### View
+
 ![](https://i.imgur.com/QcedrlV.png)
 
 <img align="center" width="350" src="https://i.imgur.com/SS9VM9L.gif" />
@@ -28,15 +40,6 @@ install all dependency
 ```
 bundle install && npm install
 ```
-
-### Usage
-|   Commands    |    Discord    |    Telegram    |    Whatsapp    |
-| ------------- | ------------- | ------------- | ------------- |
-| information  | ```::info``` |  | :atem |
-| ping or status | ```::ping``` |  | :status |
-| random card | ```::random``` | ```/random``` |  |
-| list search card  |  ```::src card_name```    | ```/searchlist``` |  |
-| quick search card | ```::card_name::``` | ```::card_name::``` | ```::card_name::``` |
 
 ### Running and Tools
 
