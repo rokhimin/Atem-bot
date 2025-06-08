@@ -1,0 +1,23 @@
+name: Testing Atem Bot
+
+on:
+  push:
+    branches: [main] 
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.3.0
+        bundler-cache: true
+
+    - name: Run RSpec via Rake
+      run: bundle exec rake run:test

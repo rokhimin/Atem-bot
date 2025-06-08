@@ -1,19 +1,10 @@
 <img align="center" width="150" src="https://i.imgur.com/Fgolqn1.png" />
 
-<a href="https://top.gg/bot/617492380710469763" >
-  <img src="https://top.gg/api/widget/status/617492380710469763.svg" alt="Atem" />
-</a>
-
 ![Lang](https://img.shields.io/badge/language-ruby-red)
 ![Lang](https://img.shields.io/badge/language-typescript-blue)
 
 # Atem Bot
-discord, Telegram, and Whatsapp bot for search yugioh card
-
-### Library
-- Discord => Discordrb (Ruby)
-- Telegram => Telegram-Bot-Ruby (ruby)
-- Whatsapp => Baileys.js (Typescript)
+discord, Telegram, and Whatsapp bot for search yugioh card, written in ruby and typescript.
 
 ### Play
 
@@ -35,11 +26,7 @@ discord, Telegram, and Whatsapp bot for search yugioh card
 install all dependency
 
 ```
-bundle install
-```
-
-```
-npm i
+bundle install && npm install
 ```
 
 ### Usage
@@ -52,7 +39,7 @@ npm i
 | quick search card | ```::card_name::``` | ```::card_name::``` | ```::card_name::``` |
 
 ### Developer Tool
-unit test :
+run unit test :
  ```
  rake run:rspec
  ```
