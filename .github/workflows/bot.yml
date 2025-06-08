@@ -20,4 +20,4 @@ jobs:
         bundler-cache: true
 
     - name: Run RSpec via Rake
-      run: bundle exec rake run:test
+      run: bundle exec rake test
